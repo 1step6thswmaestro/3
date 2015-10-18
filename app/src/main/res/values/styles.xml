@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="SpinnerAppTheme" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/apptheme_spinner_background_holo_dark</item>
+        <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_dark</item>
+    </style>
+
+    <style name="SpinnerDropDownItemAppTheme" parent="android:Widget.DropDownItem.Spinner">
+        <item name="android:checkMark">@drawable/apptheme_btn_radio_holo_dark</item>
+    </style>
+
+    <style name="TranslucentActionBar">
+        <item name="android:background">@null</item>
+        <item name="android:icon">@drawable/ic_launcher</item>
+        <item name="titleTextStyle">@style/titleStyle</item>
+    </style>
+
+    <style name="titleStyle">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="LinearLayout" />
+
+    <style name="LinearLayout.GuillotineItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">@dimen/guillotine_small_margin</item>
+    </style>
+
+    <style name="TextView" />
+
+    <style name="TextView.ToolbarTitle">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextView.GuillotineItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/guillotine_small_margin</item>
+        <item name="android:textSize">@dimen/guillotine_item_text_size</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/deep_orange_500</item>
+    </style>
+
+    <style name="TextView.GuillotineItem.Selected">
+        <item name="android:textColor">@color/deep_orange_800</item>
+    </style>
+
+    <style name="Toolbar">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@color/deep_orange_500</item>
+    </style>
+
+    <style name="ImageView" />
+
+    <style name="ImageView.ContentItem">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="ImageView.Hamburger" parent="Widget.AppCompat.ActionButton">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/abc_action_bar_overflow_padding_start_material</item>
+    </style>
+
+    <style name="ImageView.GuillotineItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/guillotine_large_margin</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>
