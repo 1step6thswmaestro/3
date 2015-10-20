@@ -21,7 +21,7 @@
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".ui.DetailActivity"
+            android:name=".ui.FoodDetailActivity"
             android:label="@string/detail"
             android:parentActivityName=".ui.MainActivity" >
         </activity>
@@ -44,9 +44,13 @@
         <activity android:name=".ui.LoginActivity" >
         </activity>
         <activity
-            android:name=".ui.ScrollingActivity"
+            android:name=".ui.FoodScrollingActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme" >
+        </activity>
+        <activity android:name=".ui.LikeActivity" >
+        </activity>
+        <activity android:name=".ui.advrecyclerview.ExpandableDraggableSwipeableExampleActivity" >
         </activity>
     </application>
 

@@ -47,5 +47,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/guillotine_medium_margin"
         android:orientation="vertical"/>
+
 </FrameLayout>
 

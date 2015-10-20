@@ -17,7 +17,7 @@ import com.soma.second.matnam.R;
 import com.soma.second.matnam.adapters.CircularAdapter;
 import com.soma.second.matnam.provider.ExtraArgumentKeys;
 import com.soma.second.matnam.provider.ImagesUrls;
-import com.soma.second.matnam.ui.DetailActivity;
+import com.soma.second.matnam.ui.FoodDetailActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,8 +82,8 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
     @Override
     public void onBuddyItemClicked(AdapterView<?> parent, View view, int buddy, int position, long id) {
         if (isOpenActivities) {
-            Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra(DetailActivity.EXTRA_URL, getImage(buddy, position));
+            Intent intent = new Intent(getActivity(), FoodDetailActivity.class);
+            intent.putExtra(FoodDetailActivity.EXTRA_URL, getImage(buddy, position));
             startActivity(intent);
         } else {
             Resources resources = getResources();

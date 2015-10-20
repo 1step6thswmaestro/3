@@ -8,10 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.Utils.SharePreferences;
@@ -31,10 +33,12 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
-    @InjectView(R.id.root)
-    FrameLayout root;
     @InjectView(R.id.content_hamburger)
     View contentHamburger;
+    @InjectView(R.id.root)
+    FrameLayout root;
+    @InjectView(R.id.container)
+    FrameLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,20 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
                 .setActionBarViewForAnimation(toolbar)
                 .setClosedOnStart(true)
                 .build();
+
+//        final boolean[] menuFlag = {false};
+//        contentHamburger.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(menuFlag[0]) {
+//                    container.setVisibility(View.VISIBLE);
+//                    menuFlag[0] = false;
+//                } else {
+//                    container.setVisibility(View.GONE);
+//                    menuFlag[0] = true;
+//                }
+//            }
+//        });
     }
 
 //    @Override
