@@ -58,7 +58,7 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_listbuddies, container, false);
         ButterKnife.inject(this, rootView);
 
         //If we do this we need to uncomment the container on the xml layout

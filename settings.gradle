@@ -1,1 +1,1 @@
-include ':library_blur-behind', ':library_guillotinemenu', ':app'
+include ':library_blur-behind', ':app'

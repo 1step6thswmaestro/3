@@ -27,4 +27,6 @@
 
     <dimen name="list_item_height">64dp</dimen>
     <dimen name="list_group_item_height">96dp</dimen>
+
+    <dimen name="sliding_menu_width">80dp</dimen>
 </resources>

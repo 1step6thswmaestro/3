@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/guillotine_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/deep_orange_50"
@@ -66,7 +68,9 @@
 
         <ImageView
             style="@style/ImageView.GuillotineItem"
-            android:src="@drawable/ic_menu_90" />
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_setting_48" />
 
         <com.soma.second.matnam.ui.widget.CanaroTextView
             style="@style/TextView.GuillotineItem"
