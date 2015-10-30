@@ -29,6 +29,14 @@
             app:contentInsetStart="0dp"
             style="@style/Toolbar">
 
+            <com.soma.second.matnam.ui.widget.CanaroTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="맛남"
+                android:textSize="@dimen/guillotine_item_text_size"
+                android:textColor="@android:color/white"/>
+
         </android.support.v7.widget.Toolbar>
 
         <FrameLayout

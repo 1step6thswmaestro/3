@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/MatNam.iml" filepath="$PROJECT_DIR$/MatNam.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_blur-behind/library_blur-behind.iml" filepath="$PROJECT_DIR$/library_blur-behind/library_blur-behind.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library_side-menu/library_side-menu.iml" filepath="$PROJECT_DIR$/library_side-menu/library_side-menu.iml" />
     </modules>
   </component>
 </project>

@@ -7,37 +7,17 @@
     android:background="@color/inset"
     android:layout_marginTop="@dimen/margin_top_customization_fragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/standar_padding">
-
-        <TextView
-            android:id="@+id/seekBarGapTitle"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="Gap"
-            android:paddingTop="@dimen/standar_padding"
-            android:paddingBottom="@dimen/standar_padding"
-            android:textColor="@color/white"
-            android:layout_gravity="center_vertical" />
-
-        <SeekBar
-            android:id="@+id/seekBarGap"
-            android:max="500"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/seekBarGapValue"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/standar_padding"
-            android:textColor="@color/white"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="Setting."
+        android:paddingTop="@dimen/standar_padding"
+        android:paddingBottom="@dimen/standar_padding"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:layout_gravity="center_vertical" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,6 +29,7 @@
             android:id="@+id/seekBarSpeedTitle"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="Speed"
             android:paddingTop="@dimen/standar_padding"
             android:paddingBottom="@dimen/standar_padding"
@@ -57,7 +38,7 @@
 
         <SeekBar
             android:id="@+id/seekBarSpeed"
-            android:max="200"
+            android:max="20"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
@@ -71,77 +52,13 @@
             android:layout_gravity="center_vertical" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/setting_close_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/standar_padding">
-
-        <TextView
-            android:id="@+id/seekBarDivHeightTitle"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="Divider height"
-            android:paddingTop="@dimen/standar_padding"
-            android:paddingBottom="@dimen/standar_padding"
-            android:textColor="@color/white"
-            android:layout_gravity="center_vertical" />
-
-        <SeekBar
-            android:id="@+id/seekBarDivHeight"
-            android:max="200"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/seekBarDivHeightValue"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/standar_padding"
-            android:textColor="@color/white"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Spinner
-            android:id="@+id/fillGapSpinner"
-            android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/standar_padding" />
-
-        <Spinner
-            android:id="@+id/dividerSpinner"
-            android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/standar_padding" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Spinner
-            android:id="@+id/autoScrollSpinner"
-            android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/standar_padding" />
-
-        <Spinner
-            android:id="@+id/scrollSpinner"
-            android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/standar_padding" />
-
-    </LinearLayout>
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_gravity="right"
+        android:text="Close"/>
 
 </LinearLayout>

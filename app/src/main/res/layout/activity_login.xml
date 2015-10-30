@@ -6,14 +6,24 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_above="@+id/loginButton"
+        android:layout_above="@+id/loginbrandText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:textColor="@android:color/white"
-        android:text="맛남 Logo"/>
+        android:text="맛남"/>
+
+    <TextView
+        android:id="@+id/loginbrandText"
+        android:layout_above="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_centerInParent="true"
+        android:textSize="15sp"
+        android:textColor="@android:color/white"
+        android:text="맛있는 음식과 좋은 사람들"/>
 
     <Button
         android:id="@+id/loginButton"

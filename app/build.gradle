@@ -32,7 +32,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile project(':library_blur-behind')
-    compile 'com.yalantis:sidemenu:1.0'
+    compile project(':library_side-menu')
+//    compile 'com.yalantis:sidemenu:1.0'
     compile ('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
         transitive = true;
     }

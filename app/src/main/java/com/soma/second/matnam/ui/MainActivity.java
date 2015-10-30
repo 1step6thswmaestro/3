@@ -20,7 +20,9 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.rey.material.widget.Button;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.Utils.BackPressCloseHandler;
 import com.soma.second.matnam.Utils.SharePreferences;
@@ -93,21 +95,7 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
         createMenuList();
         viewAnimator = new ViewAnimator<>(this, list, contentFragment, drawerLayout, this);
 
-//        final boolean[] menuFlag = {false};
-//        contentHamburger.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(menuFlag[0]) {
-//                    container.setVisibility(View.VISIBLE);
-//                    menuFlag[0] = false;
-//                } else {
-//                    container.setVisibility(View.GONE);
-//                    menuFlag[0] = true;
-//                }
-//            }
-//        });
     }
-
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        MenuInflater menuInflater = new MenuInflater(this);
@@ -175,50 +163,10 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
     }
 
     @Override
-    public void setGap(int value) {
-        ListBuddiesFragment fragment = getListBuddiesFragment();
-        if (fragment != null) {
-            fragment.setGap(value);
-        }
-    }
-
-    @Override
-    public void setGapColor(int color) {
-        ListBuddiesFragment fragment = getListBuddiesFragment();
-        if (fragment != null) {
-            fragment.setGapColor(color);
-        }
-    }
-
-    @Override
     public void setDivider(Drawable drawable) {
         ListBuddiesFragment fragment = getListBuddiesFragment();
         if (fragment != null) {
             fragment.setDivider(drawable);
-        }
-    }
-
-    @Override
-    public void setDividerHeight(int value) {
-        ListBuddiesFragment fragment = getListBuddiesFragment();
-        if (fragment != null) {
-            fragment.setDividerHeight(value);
-        }
-    }
-
-    @Override
-    public void setAutoScrollFaster(int option) {
-        ListBuddiesFragment fragment = getListBuddiesFragment();
-        if (fragment != null) {
-            fragment.setAutoScrollFaster(option);
-        }
-    }
-
-    @Override
-    public void setScrollFaster(int option) {
-        ListBuddiesFragment fragment = getListBuddiesFragment();
-        if (fragment != null) {
-            fragment.setScrollFaster(option);
         }
     }
 
@@ -270,6 +218,7 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
         drawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 drawerLayout,         /* DrawerLayout object */
@@ -303,20 +252,12 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
     private void createMenuList() {
         SlideMenuItem menuItem0 = new SlideMenuItem(ContentFragment.CLOSE, R.drawable.icn_close);
         list.add(menuItem0);
-        SlideMenuItem menuItem = new SlideMenuItem(ContentFragment.BUILDING, R.drawable.icn_1);
-        list.add(menuItem);
-        SlideMenuItem menuItem2 = new SlideMenuItem(ContentFragment.BOOK, R.drawable.icn_1);
+        SlideMenuItem menuItem1 = new SlideMenuItem(ContentFragment.MAIN, R.drawable.ic_logo_64);
+        list.add(menuItem1);
+        SlideMenuItem menuItem2 = new SlideMenuItem(ContentFragment.SEARCH, R.drawable.ic_search_64);
         list.add(menuItem2);
-        SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment.PAINT, R.drawable.icn_1);
+        SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment.SETTING, R.drawable.ic_setting_64);
         list.add(menuItem3);
-        SlideMenuItem menuItem4 = new SlideMenuItem(ContentFragment.CASE, R.drawable.icn_1);
-        list.add(menuItem4);
-        SlideMenuItem menuItem5 = new SlideMenuItem(ContentFragment.SHOP, R.drawable.icn_1);
-        list.add(menuItem5);
-        SlideMenuItem menuItem6 = new SlideMenuItem(ContentFragment.PARTY, R.drawable.icn_1);
-        list.add(menuItem6);
-        SlideMenuItem menuItem7 = new SlideMenuItem(ContentFragment.MOVIE, R.drawable.icn_1);
-        list.add(menuItem7);
     }
 
     @Override
@@ -336,8 +277,16 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
         switch (slideMenuItem.getName()) {
             case ContentFragment.CLOSE:
                 return screenShotable;
-            default:
-                return replaceFragment(screenShotable, position);
+            case ContentFragment.MAIN:
+                manageFragment(ListBuddiesFragment.newInstance(isOpenActivitiesActivated), FragmentTags.LIST_BUDDIES, false);
+                return screenShotable;
+            case ContentFragment.SEARCH:
+                Toast.makeText(this, "이미지 검색이 들어갈 메뉴입니다", Toast.LENGTH_LONG).show();
+                return screenShotable;
+            case ContentFragment.SETTING:
+                manageFragment(CustomizeFragment.newInstance(), FragmentTags.CUSTOMIZE, true);
+                return screenShotable;
+            default: return screenShotable;
         }
     }
 
@@ -358,20 +307,20 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
         linearLayout.addView(view);
     }
 
-    private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition) {
-        this.res = this.res == R.drawable.icn_1 ? R.drawable.icn_1 : R.drawable.icn_1;
-        View view = findViewById(R.id.content_frame);
-        int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, topPosition, 0, finalRadius);
-        animator.setInterpolator(new AccelerateInterpolator());
-        animator.setDuration(ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
-
-        findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
-        animator.start();
-        ContentFragment contentFragment = ContentFragment.newInstance(this.res);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
-        return contentFragment;
-    }
+//    private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition) {
+//        this.res = this.res == R.drawable.icn_1 ? R.drawable.icn_1 : R.drawable.icn_1;
+//        View view = findViewById(R.id.content_frame);
+//        int finalRadius = Math.max(view.getWidth(), view.getHeight());
+//        SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, topPosition, 0, finalRadius);
+//        animator.setInterpolator(new AccelerateInterpolator());
+//        animator.setDuration(ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
+//
+//        findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
+//        animator.start();
+//        ContentFragment contentFragment = ContentFragment.newInstance(this.res);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
+//        return contentFragment;
+//    }
 
     @Override
     public void onBackPressed() { backPressCloseHandler.onBackPressed(0); }

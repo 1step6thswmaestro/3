@@ -18,13 +18,9 @@ import com.soma.second.matnam.R;
  */
 public class ContentFragment extends Fragment implements ScreenShotable {
     public static final String CLOSE = "Close";
-    public static final String BUILDING = "Building";
-    public static final String BOOK = "Book";
-    public static final String PAINT = "Paint";
-    public static final String CASE = "Case";
-    public static final String SHOP = "Shop";
-    public static final String PARTY = "Party";
-    public static final String MOVIE = "Movie";
+    public static final String MAIN = "Main";
+    public static final String SEARCH = "Search";
+    public static final String SETTING = "Setting";
 
     private View containerView;
     protected ImageView mImageView;
@@ -71,7 +67,7 @@ public class ContentFragment extends Fragment implements ScreenShotable {
                 Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
                         containerView.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
-                containerView.draw(canvas);
+//                containerView.draw(canvas);
                 ContentFragment.this.bitmap = bitmap;
             }
         };
