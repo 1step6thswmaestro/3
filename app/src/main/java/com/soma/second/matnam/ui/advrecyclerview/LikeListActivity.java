@@ -31,7 +31,7 @@ import com.soma.second.matnam.ui.advrecyclerview.fragment.ExampleExpandableDataP
 import com.soma.second.matnam.ui.advrecyclerview.fragment.ExpandableItemPinnedMessageDialogFragment;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 
-public class ExpandableDraggableSwipeableExampleActivity extends AppCompatActivity implements ExpandableItemPinnedMessageDialogFragment.EventListener {
+public class LikeListActivity extends AppCompatActivity implements ExpandableItemPinnedMessageDialogFragment.EventListener {
     private static final String FRAGMENT_TAG_DATA_PROVIDER = "data provider";
     private static final String FRAGMENT_LIST_VIEW = "list view";
     private static final String FRAGMENT_TAG_ITEM_PINNED_DIALOG = "item pinned dialog";

@@ -36,7 +36,6 @@ import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchAct
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.ui.advrecyclerview.data.AbstractExpandableDataProvider;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
-import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
@@ -92,28 +91,28 @@ public class RecyclerListViewFragment extends Fragment
         mRecyclerViewSwipeManager = new RecyclerViewSwipeManager();
 
         //adapter
-        final MyExpandableDraggableSwipeableItemAdapter myItemAdapter =
-                new MyExpandableDraggableSwipeableItemAdapter(mRecyclerViewExpandableItemManager, getDataProvider());
+        final LikeListAdapter myItemAdapter =
+                new LikeListAdapter(mRecyclerViewExpandableItemManager, getDataProvider());
 
-        myItemAdapter.setEventListener(new MyExpandableDraggableSwipeableItemAdapter.EventListener() {
+        myItemAdapter.setEventListener(new LikeListAdapter.EventListener() {
             @Override
             public void onGroupItemRemoved(int groupPosition) {
-                ((ExpandableDraggableSwipeableExampleActivity) getActivity()).onGroupItemRemoved(groupPosition);
+                ((LikeListActivity) getActivity()).onGroupItemRemoved(groupPosition);
             }
 
             @Override
             public void onChildItemRemoved(int groupPosition, int childPosition) {
-                ((ExpandableDraggableSwipeableExampleActivity) getActivity()).onChildItemRemoved(groupPosition, childPosition);
+                ((LikeListActivity) getActivity()).onChildItemRemoved(groupPosition, childPosition);
             }
 
             @Override
             public void onGroupItemPinned(int groupPosition) {
-                ((ExpandableDraggableSwipeableExampleActivity) getActivity()).onGroupItemPinned(groupPosition);
+                ((LikeListActivity) getActivity()).onGroupItemPinned(groupPosition);
             }
 
             @Override
             public void onChildItemPinned(int groupPosition, int childPosition) {
-                ((ExpandableDraggableSwipeableExampleActivity) getActivity()).onChildItemPinned(groupPosition, childPosition);
+                ((LikeListActivity) getActivity()).onChildItemPinned(groupPosition, childPosition);
             }
 
             @Override
@@ -242,9 +241,9 @@ public class RecyclerListViewFragment extends Fragment
         final int childPosition = RecyclerViewExpandableItemManager.getPackedPositionChild(expandablePosition);
 
         if (childPosition == RecyclerView.NO_POSITION) {
-            ((ExpandableDraggableSwipeableExampleActivity) getActivity()).onGroupItemClicked(groupPosition);
+            ((LikeListActivity) getActivity()).onGroupItemClicked(groupPosition);
         } else {
-            ((ExpandableDraggableSwipeableExampleActivity) getActivity()).onChildItemClicked(groupPosition, childPosition);
+            ((LikeListActivity) getActivity()).onChildItemClicked(groupPosition, childPosition);
         }
     }
 
@@ -253,7 +252,7 @@ public class RecyclerListViewFragment extends Fragment
     }
 
     public AbstractExpandableDataProvider getDataProvider() {
-        return ((ExpandableDraggableSwipeableExampleActivity) getActivity()).getDataProvider();
+        return ((LikeListActivity) getActivity()).getDataProvider();
     }
 
     public void notifyGroupItemRestored(int groupPosition) {

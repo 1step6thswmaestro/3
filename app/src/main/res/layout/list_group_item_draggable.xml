@@ -38,14 +38,50 @@
             android:background="#20000000"
             tools:ignore="RtlHardcoded"/>
 
-        <TextView
-            android:id="@android:id/text1"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="top|left"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:gravity="center"/>
+            android:layout_marginRight="40dp">
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:text="방 제목 부분"
+                android:textSize="15dp"
+                android:maxLines="2"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="2015. 10. 4"
+                    android:textSize="13dp"/>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="50dp"
+                    android:src="@drawable/ic_logo_64"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="3 명"
+                    android:textSize="13dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <com.soma.second.matnam.ui.advrecyclerview.widget.ExpandableItemIndicator
             android:id="@+id/indicator"

@@ -3,14 +3,11 @@ package com.soma.second.matnam.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.soma.second.matnam.R;
-import com.soma.second.matnam.ui.advrecyclerview.ExpandableDraggableSwipeableExampleActivity;
-import com.soma.second.matnam.ui.advrecyclerview.ExpandableExampleActivity;
+import com.soma.second.matnam.ui.advrecyclerview.LikeListActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -46,7 +43,7 @@ public class FoodDetailActivity extends BaseActivity {
         like_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FoodDetailActivity.this, ExpandableDraggableSwipeableExampleActivity.class);
+                Intent intent = new Intent(FoodDetailActivity.this, LikeListActivity.class);
                 startActivity(intent);
             }
         });

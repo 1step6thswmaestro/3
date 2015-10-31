@@ -45,10 +45,10 @@ import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractDraggableSwipeabl
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.utils.RecyclerViewAdapterUtils;
 
-class MyExpandableDraggableSwipeableItemAdapter
-        extends AbstractExpandableItemAdapter<MyExpandableDraggableSwipeableItemAdapter.MyGroupViewHolder, MyExpandableDraggableSwipeableItemAdapter.MyChildViewHolder>
-        implements ExpandableDraggableItemAdapter<MyExpandableDraggableSwipeableItemAdapter.MyGroupViewHolder, MyExpandableDraggableSwipeableItemAdapter.MyChildViewHolder>,
-        ExpandableSwipeableItemAdapter<MyExpandableDraggableSwipeableItemAdapter.MyGroupViewHolder, MyExpandableDraggableSwipeableItemAdapter.MyChildViewHolder> {
+class LikeListAdapter
+        extends AbstractExpandableItemAdapter<LikeListAdapter.MyGroupViewHolder, LikeListAdapter.MyChildViewHolder>
+        implements ExpandableDraggableItemAdapter<LikeListAdapter.MyGroupViewHolder, LikeListAdapter.MyChildViewHolder>,
+        ExpandableSwipeableItemAdapter<LikeListAdapter.MyGroupViewHolder, LikeListAdapter.MyChildViewHolder> {
     private static final String TAG = "MyEDSItemAdapter";
 
     // NOTE: Make accessible with short name
@@ -121,7 +121,7 @@ class MyExpandableDraggableSwipeableItemAdapter
         }
     }
 
-    public MyExpandableDraggableSwipeableItemAdapter(
+    public LikeListAdapter(
             RecyclerViewExpandableItemManager expandableItemManager,
             AbstractExpandableDataProvider dataProvider) {
         mExpandableItemManager = expandableItemManager;
@@ -478,11 +478,11 @@ class MyExpandableDraggableSwipeableItemAdapter
     }
 
     private static class GroupSwipeLeftResultAction extends SwipeResultActionMoveToSwipedDirection {
-        private MyExpandableDraggableSwipeableItemAdapter mAdapter;
+        private LikeListAdapter mAdapter;
         private final int mGroupPosition;
         private boolean mSetPinned;
 
-        GroupSwipeLeftResultAction(MyExpandableDraggableSwipeableItemAdapter adapter, int groupPosition) {
+        GroupSwipeLeftResultAction(LikeListAdapter adapter, int groupPosition) {
             mAdapter = adapter;
             mGroupPosition = groupPosition;
         }
@@ -519,10 +519,10 @@ class MyExpandableDraggableSwipeableItemAdapter
     }
 
     private static class GroupSwipeRightResultAction extends SwipeResultActionRemoveItem {
-        private MyExpandableDraggableSwipeableItemAdapter mAdapter;
+        private LikeListAdapter mAdapter;
         private final int mGroupPosition;
 
-        GroupSwipeRightResultAction(MyExpandableDraggableSwipeableItemAdapter adapter, int groupPosition) {
+        GroupSwipeRightResultAction(LikeListAdapter adapter, int groupPosition) {
             mAdapter = adapter;
             mGroupPosition = groupPosition;
         }
@@ -553,10 +553,10 @@ class MyExpandableDraggableSwipeableItemAdapter
     }
 
     private static class GroupUnpinResultAction extends SwipeResultActionDefault {
-        private MyExpandableDraggableSwipeableItemAdapter mAdapter;
+        private LikeListAdapter mAdapter;
         private final int mGroupPosition;
 
-        GroupUnpinResultAction(MyExpandableDraggableSwipeableItemAdapter adapter, int groupPosition) {
+        GroupUnpinResultAction(LikeListAdapter adapter, int groupPosition) {
             mAdapter = adapter;
             mGroupPosition = groupPosition;
         }
@@ -582,12 +582,12 @@ class MyExpandableDraggableSwipeableItemAdapter
 
 
     private static class ChildSwipeLeftResultAction extends SwipeResultActionMoveToSwipedDirection {
-        private MyExpandableDraggableSwipeableItemAdapter mAdapter;
+        private LikeListAdapter mAdapter;
         private final int mGroupPosition;
         private final int mChildPosition;
         private boolean mSetPinned;
 
-        ChildSwipeLeftResultAction(MyExpandableDraggableSwipeableItemAdapter adapter, int groupPosition, int childPosition) {
+        ChildSwipeLeftResultAction(LikeListAdapter adapter, int groupPosition, int childPosition) {
             mAdapter = adapter;
             mGroupPosition = groupPosition;
             mChildPosition = childPosition;
@@ -625,11 +625,11 @@ class MyExpandableDraggableSwipeableItemAdapter
     }
 
     private static class ChildSwipeRightResultAction extends SwipeResultActionRemoveItem {
-        private MyExpandableDraggableSwipeableItemAdapter mAdapter;
+        private LikeListAdapter mAdapter;
         private final int mGroupPosition;
         private final int mChildPosition;
 
-        ChildSwipeRightResultAction(MyExpandableDraggableSwipeableItemAdapter adapter, int groupPosition, int childPosition) {
+        ChildSwipeRightResultAction(LikeListAdapter adapter, int groupPosition, int childPosition) {
             mAdapter = adapter;
             mGroupPosition = groupPosition;
             mChildPosition = childPosition;
@@ -661,11 +661,11 @@ class MyExpandableDraggableSwipeableItemAdapter
     }
 
     private static class ChildUnpinResultAction extends SwipeResultActionDefault {
-        private MyExpandableDraggableSwipeableItemAdapter mAdapter;
+        private LikeListAdapter mAdapter;
         private final int mGroupPosition;
         private final int mChildPosition;
 
-        ChildUnpinResultAction(MyExpandableDraggableSwipeableItemAdapter adapter, int groupPosition, int childPosition) {
+        ChildUnpinResultAction(LikeListAdapter adapter, int groupPosition, int childPosition) {
             mAdapter = adapter;
             mGroupPosition = groupPosition;
             mChildPosition = childPosition;
