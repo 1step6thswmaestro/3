@@ -27,6 +27,7 @@ import com.soma.second.matnam.R;
 import com.soma.second.matnam.Utils.BackPressCloseHandler;
 import com.soma.second.matnam.Utils.SharePreferences;
 import com.soma.second.matnam.provider.FragmentTags;
+import com.soma.second.matnam.ui.advrecyclerview.LikeListActivity;
 import com.soma.second.matnam.ui.fragments.ContentFragment;
 import com.soma.second.matnam.ui.fragments.CustomizeFragment;
 import com.soma.second.matnam.ui.fragments.ListBuddiesFragment;
@@ -79,6 +80,7 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
             manageFragment(ListBuddiesFragment.newInstance(isOpenActivitiesActivated), FragmentTags.LIST_BUDDIES, false);
         }
 
+        setSpeed(5);
         ButterKnife.inject(this);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -254,10 +256,14 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
         list.add(menuItem0);
         SlideMenuItem menuItem1 = new SlideMenuItem(ContentFragment.MAIN, R.drawable.ic_logo_64);
         list.add(menuItem1);
-        SlideMenuItem menuItem2 = new SlideMenuItem(ContentFragment.SEARCH, R.drawable.ic_search_64);
+        SlideMenuItem menuItem2 = new SlideMenuItem(ContentFragment.ROOM, R.drawable.ic_likelist_64);
         list.add(menuItem2);
-        SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment.SETTING, R.drawable.ic_setting_64);
+        SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment.SEARCH, R.drawable.ic_search_64);
         list.add(menuItem3);
+        SlideMenuItem menuItem4 = new SlideMenuItem(ContentFragment.MAP, R.drawable.ic_map_64);
+        list.add(menuItem4);
+        SlideMenuItem menuItem5 = new SlideMenuItem(ContentFragment.SETTING, R.drawable.ic_setting_64);
+        list.add(menuItem5);
     }
 
     @Override
@@ -280,8 +286,15 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
             case ContentFragment.MAIN:
                 manageFragment(ListBuddiesFragment.newInstance(isOpenActivitiesActivated), FragmentTags.LIST_BUDDIES, false);
                 return screenShotable;
+            case ContentFragment.ROOM:
+                Intent intent = new Intent(MainActivity.this, LikeListActivity.class);
+                startActivity(intent);
+                return screenShotable;
             case ContentFragment.SEARCH:
                 Toast.makeText(this, "이미지 검색이 들어갈 메뉴입니다", Toast.LENGTH_LONG).show();
+                return screenShotable;
+            case ContentFragment.MAP:
+                Toast.makeText(this, "지도 선택이 들어갈 메뉴입니다", Toast.LENGTH_LONG).show();
                 return screenShotable;
             case ContentFragment.SETTING:
                 manageFragment(CustomizeFragment.newInstance(), FragmentTags.CUSTOMIZE, true);

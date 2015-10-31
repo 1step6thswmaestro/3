@@ -17,6 +17,7 @@
 package com.soma.second.matnam.ui.advrecyclerview;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.ui.advrecyclerview.data.AbstractExpandableDataProvider;
@@ -49,6 +51,14 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
                     .add(R.id.container, new RecyclerListViewFragment(), FRAGMENT_LIST_VIEW)
                     .commit();
         }
+
+        FloatingActionButton likeAddFab = (FloatingActionButton) findViewById(R.id.like_add_fab);
+        likeAddFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(LikeListActivity.this, "방 개설 메뉴", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
