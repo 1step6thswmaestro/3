@@ -4,8 +4,8 @@ import android.content.SharedPreferences;
 
 import com.jpardogo.listbuddies.lib.views.ListBuddiesLayout;
 import com.soma.second.matnam.App;
-import com.soma.second.matnam.provider.SharedPrefFiles;
-import com.soma.second.matnam.provider.SharedPrefKeys;
+import com.soma.second.matnam.listdubbies.provider.SharedPrefFiles;
+import com.soma.second.matnam.listdubbies.provider.SharedPrefKeys;
 
 /**
  * Created by jpardogo on 23/02/2014.

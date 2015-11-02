@@ -1,30 +1,22 @@
 package com.soma.second.matnam.ui.fragments;
 
 import android.app.Activity;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jpardogo.listbuddies.lib.provider.ScrollConfigOptions;
-import com.jpardogo.listbuddies.lib.views.ListBuddiesLayout;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.Utils.SharePreferences;
-import com.soma.second.matnam.adapters.CustomizeSpinnersAdapter;
-import com.soma.second.matnam.models.KeyValuePair;
-import com.soma.second.matnam.provider.FragmentTags;
-import com.soma.second.matnam.provider.SharedPrefKeys;
+import com.soma.second.matnam.listdubbies.adapters.CustomizeSpinnersAdapter;
+import com.soma.second.matnam.listdubbies.models.KeyValuePair;
+import com.soma.second.matnam.listdubbies.provider.SharedPrefKeys;
 
 import java.util.ArrayList;
 import java.util.List;

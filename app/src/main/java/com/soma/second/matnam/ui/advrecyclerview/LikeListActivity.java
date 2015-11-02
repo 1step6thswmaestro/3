@@ -16,25 +16,22 @@
 
 package com.soma.second.matnam.ui.advrecyclerview;
 
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.OnDismissListener;
-import com.orhanobut.dialogplus.OnItemClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.soma.second.matnam.R;
+import com.soma.second.matnam.ui.InviteFriendActivity;
 import com.soma.second.matnam.ui.advrecyclerview.data.AbstractExpandableDataProvider;
 import com.soma.second.matnam.ui.advrecyclerview.fragment.ExampleExpandableDataProviderFragment;
 import com.soma.second.matnam.ui.advrecyclerview.fragment.ExpandableItemPinnedMessageDialogFragment;
@@ -121,16 +118,8 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
      */
     public void onGroupItemPinned(int groupPosition) {
 
-        new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("신청되었습니다!")
-                .setContentText("답변이 오기까지 기다려주세요.")
-                .show();
-
-//        final DialogFragment dialog = ExpandableItemPinnedMessageDialogFragment.newInstance(groupPosition, RecyclerView.NO_POSITION);
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .add(dialog, FRAGMENT_TAG_ITEM_PINNED_DIALOG)
-//                .commit();
+        Intent intent = new Intent(LikeListActivity.this, InviteFriendActivity.class);
+        startActivity(intent);
     }
 
     /**
@@ -220,8 +209,8 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
     @Override
     public void onClick(View view) {
 
-        final DialogPlus dialog = DialogPlus.newDialog(LikeListActivity.this)
-                .setHeader(R.layout.dialogplus_header)
+        DialogPlus dialog = DialogPlus.newDialog(LikeListActivity.this)
+                .setHeader(R.layout.dialogplus_header_text)
                 .setContentHolder(new ViewHolder(R.layout.dialogplus_add_content))
                 .setCancelable(true)
                 .setContentHeight(650)
@@ -248,6 +237,8 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
                 break;
 
             case R.id.pick_friend_textview :
+                Intent intent = new Intent(LikeListActivity.this, InviteFriendActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.dialog_ok_textview :

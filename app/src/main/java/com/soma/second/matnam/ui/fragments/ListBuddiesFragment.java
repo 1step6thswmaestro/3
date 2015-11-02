@@ -14,9 +14,9 @@ import android.widget.Toast;
 import com.jpardogo.listbuddies.lib.provider.ScrollConfigOptions;
 import com.jpardogo.listbuddies.lib.views.ListBuddiesLayout;
 import com.soma.second.matnam.R;
-import com.soma.second.matnam.adapters.CircularAdapter;
-import com.soma.second.matnam.provider.ExtraArgumentKeys;
-import com.soma.second.matnam.provider.ImagesUrls;
+import com.soma.second.matnam.listdubbies.adapters.CircularAdapter;
+import com.soma.second.matnam.listdubbies.provider.ExtraArgumentKeys;
+import com.soma.second.matnam.listdubbies.provider.ImagesUrls;
 import com.soma.second.matnam.ui.FoodDetailActivity;
 
 import java.util.ArrayList;
