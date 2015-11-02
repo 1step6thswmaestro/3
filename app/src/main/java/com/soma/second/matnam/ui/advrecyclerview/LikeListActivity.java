@@ -210,7 +210,7 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
     public void onClick(View view) {
 
         DialogPlus dialog = DialogPlus.newDialog(LikeListActivity.this)
-                .setHeader(R.layout.dialogplus_header_text)
+                .setHeader(R.layout.dialogplus_header_room)
                 .setContentHolder(new ViewHolder(R.layout.dialogplus_add_content))
                 .setCancelable(true)
                 .setContentHeight(650)

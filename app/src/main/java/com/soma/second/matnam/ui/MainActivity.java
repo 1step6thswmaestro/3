@@ -14,17 +14,27 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnItemClickListener;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.Utils.BackPressCloseHandler;
 import com.soma.second.matnam.Utils.SharePreferences;
 import com.soma.second.matnam.listdubbies.provider.FragmentTags;
+import com.soma.second.matnam.ui.adapters.FriendGridAdapter;
+import com.soma.second.matnam.ui.adapters.LocationAdapter;
 import com.soma.second.matnam.ui.advrecyclerview.LikeListActivity;
 import com.soma.second.matnam.ui.fragments.ContentFragment;
 import com.soma.second.matnam.ui.fragments.CustomizeFragment;
 import com.soma.second.matnam.ui.fragments.ListBuddiesFragment;
+import com.soma.second.matnam.ui.models.Friend;
+import com.soma.second.matnam.ui.models.Location;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +58,6 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
     private ViewAnimator viewAnimator;
     private int res = R.drawable.icn_1;
     private LinearLayout linearLayout;
-
 
     private boolean isOpenActivitiesActivated = true;
     private static final long RIPPLE_DURATION = 250;
@@ -88,6 +97,14 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
         setActionBar();
         createMenuList();
         viewAnimator = new ViewAnimator<>(this, list, contentFragment, drawerLayout, this);
+
+        LinearLayout locationLayout = (LinearLayout) findViewById(R.id.location_layout);
+        locationLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectLocation();
+            }
+        });
 
     }
 //    @Override
@@ -275,24 +292,53 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
         switch (slideMenuItem.getName()) {
             case ContentFragment.CLOSE:
                 return screenShotable;
+
             case ContentFragment.MAIN:
                 manageFragment(ListBuddiesFragment.newInstance(isOpenActivitiesActivated), FragmentTags.LIST_BUDDIES, false);
                 return screenShotable;
+
             case ContentFragment.ROOM:
                 Intent intent = new Intent(MainActivity.this, LikeListActivity.class);
                 startActivity(intent);
                 return screenShotable;
+
             case ContentFragment.SEARCH:
                 Toast.makeText(this, "이미지 검색이 들어갈 메뉴입니다", Toast.LENGTH_LONG).show();
                 return screenShotable;
             case ContentFragment.MAP:
-                Toast.makeText(this, "지도 선택이 들어갈 메뉴입니다", Toast.LENGTH_LONG).show();
+                selectLocation();
                 return screenShotable;
+
             case ContentFragment.SETTING:
                 manageFragment(CustomizeFragment.newInstance(), FragmentTags.CUSTOMIZE, true);
                 return screenShotable;
+
             default: return screenShotable;
         }
+    }
+
+    public void selectLocation() {
+        ArrayList<Location> locationArray = new ArrayList<Location>();
+        locationArray.add(new Location("강남"));
+        locationArray.add(new Location("신촌"));
+        locationArray.add(new Location("선릉"));
+
+        LocationAdapter locationAdapter = new LocationAdapter(this, R.layout.item_location, locationArray);
+
+        DialogPlus dialog = DialogPlus.newDialog(this)
+                .setAdapter(locationAdapter)
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                        Toast.makeText(MainActivity.this, ((Location) item).getName(), Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
+                })
+                .setExpanded(true)  // This will enable the expand feature, (similar to android L share dialog)
+                .setHeader(R.layout.dialogplus_header_location)
+                .create();
+
+        dialog.show();
     }
 
     @Override
@@ -311,21 +357,6 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
     public void addViewToContainer(View view) {
         linearLayout.addView(view);
     }
-
-//    private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition) {
-//        this.res = this.res == R.drawable.icn_1 ? R.drawable.icn_1 : R.drawable.icn_1;
-//        View view = findViewById(R.id.content_frame);
-//        int finalRadius = Math.max(view.getWidth(), view.getHeight());
-//        SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, topPosition, 0, finalRadius);
-//        animator.setInterpolator(new AccelerateInterpolator());
-//        animator.setDuration(ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
-//
-//        findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
-//        animator.start();
-//        ContentFragment contentFragment = ContentFragment.newInstance(this.res);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
-//        return contentFragment;
-//    }
 
     @Override
     public void onBackPressed() { backPressCloseHandler.onBackPressed(0); }

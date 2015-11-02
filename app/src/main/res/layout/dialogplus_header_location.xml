@@ -13,10 +13,11 @@
         <!--android:src="@drawable/ic_heart_48"/>-->
 
     <TextView
+        android:id="@+id/dialog_header_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:text="방 만들기"
+        android:text="장소 선택"
         android:textSize="15dp"
         android:textColor="@color/white"/>
 
