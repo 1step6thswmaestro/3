@@ -16,6 +16,7 @@
 
 package com.soma.second.matnam.ui.advrecyclerview;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,16 +25,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnDismissListener;
+import com.orhanobut.dialogplus.OnItemClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.ui.advrecyclerview.data.AbstractExpandableDataProvider;
 import com.soma.second.matnam.ui.advrecyclerview.fragment.ExampleExpandableDataProviderFragment;
 import com.soma.second.matnam.ui.advrecyclerview.fragment.ExpandableItemPinnedMessageDialogFragment;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-public class LikeListActivity extends AppCompatActivity implements ExpandableItemPinnedMessageDialogFragment.EventListener {
+import java.util.Calendar;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+public class LikeListActivity extends AppCompatActivity implements ExpandableItemPinnedMessageDialogFragment.EventListener, DatePickerDialog.OnDateSetListener, View.OnClickListener {
     private static final String FRAGMENT_TAG_DATA_PROVIDER = "data provider";
     private static final String FRAGMENT_LIST_VIEW = "list view";
     private static final String FRAGMENT_TAG_ITEM_PINNED_DIALOG = "item pinned dialog";
@@ -51,14 +63,7 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
                     .add(R.id.container, new RecyclerListViewFragment(), FRAGMENT_LIST_VIEW)
                     .commit();
         }
-
-        FloatingActionButton likeAddFab = (FloatingActionButton) findViewById(R.id.like_add_fab);
-        likeAddFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(LikeListActivity.this, "방 개설 메뉴", Toast.LENGTH_LONG).show();
-            }
-        });
+        findViewById(R.id.like_add_fab).setOnClickListener(this);
     }
 
     /**
@@ -67,9 +72,14 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
      * @param groupPosition The position of the group item within data set
      */
     public void onGroupItemRemoved(int groupPosition) {
+        new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("화면에 다시 나타나지 않습니다")
+                .setContentText("다른 방에서 좋은 맛남을 가지시길 바래요!")
+                .show();
+
         Snackbar snackbar = Snackbar.make(
                 findViewById(R.id.container),
-                R.string.app_name,
+                "잘못누르셨다면 여기를 눌러주세요.",
                 Snackbar.LENGTH_LONG);
 
         snackbar.setAction(R.string.app_name, new View.OnClickListener() {
@@ -110,12 +120,17 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
      * @param groupPosition The position of the group item within data set
      */
     public void onGroupItemPinned(int groupPosition) {
-        final DialogFragment dialog = ExpandableItemPinnedMessageDialogFragment.newInstance(groupPosition, RecyclerView.NO_POSITION);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(dialog, FRAGMENT_TAG_ITEM_PINNED_DIALOG)
-                .commit();
+        new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("신청되었습니다!")
+                .setContentText("답변이 오기까지 기다려주세요.")
+                .show();
+
+//        final DialogFragment dialog = ExpandableItemPinnedMessageDialogFragment.newInstance(groupPosition, RecyclerView.NO_POSITION);
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .add(dialog, FRAGMENT_TAG_ITEM_PINNED_DIALOG)
+//                .commit();
     }
 
     /**
@@ -194,5 +209,52 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
     public AbstractExpandableDataProvider getDataProvider() {
         final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_DATA_PROVIDER);
         return ((ExampleExpandableDataProviderFragment) fragment).getDataProvider();
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        TextView datePickTextview = (TextView) findViewById(R.id.pick_date_textview);
+        datePickTextview.setText(year + ". " + monthOfYear + ". " + dayOfMonth );
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        final DialogPlus dialog = DialogPlus.newDialog(LikeListActivity.this)
+                .setHeader(R.layout.dialogplus_header)
+                .setContentHolder(new ViewHolder(R.layout.dialogplus_add_content))
+                .setCancelable(true)
+                .setContentHeight(650)
+                .create();
+
+        switch (view.getId()) {
+            case R.id.like_add_fab:
+                dialog.show();
+
+                findViewById(R.id.pick_date_textview).setOnClickListener(this);
+                findViewById(R.id.pick_friend_textview).setOnClickListener(this);
+                findViewById(R.id.dialog_ok_textview).setOnClickListener(this);
+                break;
+
+            case R.id.pick_date_textview :
+                Calendar now = Calendar.getInstance();
+                DatePickerDialog dpd = DatePickerDialog.newInstance(
+                        LikeListActivity.this,
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        now.get(Calendar.DAY_OF_MONTH)
+                );
+                dpd.show(getFragmentManager(), "Datepickerdialog");
+                break;
+
+            case R.id.pick_friend_textview :
+                break;
+
+            case R.id.dialog_ok_textview :
+                dialog.dismiss();
+                Toast.makeText(LikeListActivity.this, "방을 만들었습니다.", Toast.LENGTH_LONG).show();
+                break;
+        }
+
     }
 }

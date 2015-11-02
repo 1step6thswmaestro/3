@@ -16,9 +16,9 @@
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
-        <color android:color="@color/deep_orange_500"/>
+        <color android:color="@color/deep_orange_300"/>
     </item>
     <item>
-        <color android:color="@color/deep_orange_A100"/>
+        <color android:color="@color/deep_orange_100"/>
     </item>
 </selector>
