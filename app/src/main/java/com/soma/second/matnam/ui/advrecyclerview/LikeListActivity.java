@@ -29,8 +29,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.soma.second.matnam.R;
+import com.soma.second.matnam.ui.ComposeFriendActivity;
 import com.soma.second.matnam.ui.InviteFriendActivity;
 import com.soma.second.matnam.ui.advrecyclerview.data.AbstractExpandableDataProvider;
 import com.soma.second.matnam.ui.advrecyclerview.fragment.ExampleExpandableDataProviderFragment;
@@ -237,13 +239,15 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
                 break;
 
             case R.id.pick_friend_textview :
-                Intent intent = new Intent(LikeListActivity.this, InviteFriendActivity.class);
+                Intent intent = new Intent(LikeListActivity.this, ComposeFriendActivity.class);
                 startActivity(intent);
                 break;
 
             case R.id.dialog_ok_textview :
-                dialog.dismiss();
-                Toast.makeText(LikeListActivity.this, "방을 만들었습니다.", Toast.LENGTH_LONG).show();
+                new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("방을 만들었습니다!")
+                        .setContentText("합석 신청이 오기까지 기다려주세요.")
+                        .show();
                 break;
         }
 

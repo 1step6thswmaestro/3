@@ -14,9 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
@@ -25,16 +23,12 @@ import com.soma.second.matnam.R;
 import com.soma.second.matnam.Utils.BackPressCloseHandler;
 import com.soma.second.matnam.Utils.SharePreferences;
 import com.soma.second.matnam.listdubbies.provider.FragmentTags;
-import com.soma.second.matnam.ui.adapters.FriendGridAdapter;
-import com.soma.second.matnam.ui.adapters.LocationAdapter;
+import com.soma.second.matnam.ui.adapters.LocationListAdapter;
 import com.soma.second.matnam.ui.advrecyclerview.LikeListActivity;
 import com.soma.second.matnam.ui.fragments.ContentFragment;
 import com.soma.second.matnam.ui.fragments.CustomizeFragment;
 import com.soma.second.matnam.ui.fragments.ListBuddiesFragment;
-import com.soma.second.matnam.ui.models.Friend;
 import com.soma.second.matnam.ui.models.Location;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -323,7 +317,7 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
         locationArray.add(new Location("신촌"));
         locationArray.add(new Location("선릉"));
 
-        LocationAdapter locationAdapter = new LocationAdapter(this, R.layout.item_location, locationArray);
+        LocationListAdapter locationAdapter = new LocationListAdapter(this, R.layout.item_location, locationArray);
 
         DialogPlus dialog = DialogPlus.newDialog(this)
                 .setAdapter(locationAdapter)
