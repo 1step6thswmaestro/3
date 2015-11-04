@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import com.victor.loading.rotate.RotateLoading;
 
 import com.soma.second.matnam.R;
 
@@ -17,6 +18,7 @@ public class Indicator implements OnTouchListener
 {
     private Activity xActivity = null;
     private View xView = null;
+    private RotateLoading xLoading = null;
     private ViewGroup xLayout = null;
 
     private boolean isFirst = true;
@@ -35,6 +37,7 @@ public class Indicator implements OnTouchListener
         xView = View.inflate(activity, R.layout.indicator, null);
         xView.setOnTouchListener(this);
         xActivity = activity;
+        xLoading = (RotateLoading) xView.findViewById(R.id.progressBar);
     }
 
     public Indicator(Context context, View layout)
@@ -44,6 +47,7 @@ public class Indicator implements OnTouchListener
         xView = View.inflate(context, R.layout.indicator, null);
         xView.setOnTouchListener(this);
         xLayout = (ViewGroup)layout;
+        xLoading = (RotateLoading) xLayout.findViewById(R.id.progressBar);
     }
 
     public void show()
@@ -51,12 +55,14 @@ public class Indicator implements OnTouchListener
         if(!isShow)
         {
             isShow = true;
+            xLoading.start();
             xHandler.sendEmptyMessage(iMode);
         }
     }
 
     public void hide()
     {
+        xLoading.stop();
         xHandler.sendEmptyMessage(HIDE);
     }
 
