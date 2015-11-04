@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/Dongjun/Desktop/MatNam/library_blur-behind/src/main/assets"/></dataSet><dataSet config="release"><source path="/Users/Dongjun/Desktop/MatNam/library_blur-behind/src/release/assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/Users/kimyoungjoon/Development/AndroidStudioProjects/MatnamFrontEnd/library_blur-behind/src/main/assets"/></dataSet><dataSet config="release"><source path="/Users/kimyoungjoon/Development/AndroidStudioProjects/MatnamFrontEnd/library_blur-behind/src/release/assets"/></dataSet></merger>

@@ -137,4 +137,5 @@
 
     <string name="util_back_button1">\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.</string>
     <string name="util_back_button2">\'뒤로\'버튼을 한번 더 누르시면 음악 선택화면으로 돌아갑니다.</string>
+    <string name="title_activity_request_join">RequestJoinActivity</string>
 </resources>

@@ -56,4 +56,17 @@
         android:stretchMode="columnWidth">
     </GridView>
 
+    <TextView
+        android:id="@+id/friend_request_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="100dp"
+        android:padding="15dp"
+        android:text="신청하기"
+        android:textColor="@color/deep_orange_800"/>
+
 </RelativeLayout>

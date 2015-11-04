@@ -1,1 +1,1 @@
-include ':library_blur-behind', ':library_side-menu', ':app'
+include ':library_blur-behind', ':library_side-menu', ':app', ':backend'

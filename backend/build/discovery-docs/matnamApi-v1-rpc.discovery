@@ -1,0 +1,445 @@
+{
+ "kind": "discovery#rpcDescription",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/m6fluPw1GMnW2ZSyuWgSinfOaGY\"",
+ "discoveryVersion": "v1",
+ "id": "matnamApi:v1",
+ "name": "matnamApi",
+ "version": "v1",
+ "description": "This is an API",
+ "ownerDomain": "backend.myapplication.kimyoungjoon.example.com",
+ "ownerName": "backend.myapplication.kimyoungjoon.example.com",
+ "icons": {
+  "x16": "http://www.google.com/images/icons/product/search-16.gif",
+  "x32": "http://www.google.com/images/icons/product/search-32.gif"
+ },
+ "protocol": "rpc",
+ "rootUrl": "https://swmaestro1-2.appspot.com/_ah/api/",
+ "rpcUrl": "https://swmaestro1-2.appspot.com/_ah/api/rpc",
+ "rpcPath": "/_ah/api/rpc",
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "auth": {
+  "oauth2": {
+   "scopes": {
+    "https://www.googleapis.com/auth/userinfo.email": {
+     "description": "View your email address"
+    }
+   }
+  }
+ },
+ "schemas": {
+  "CollectionResponse_RegistrationRecord": {
+   "id": "CollectionResponse_RegistrationRecord",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "RegistrationRecord"
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "MeetingRecord": {
+   "id": "MeetingRecord",
+   "type": "object",
+   "properties": {
+    "femail": {
+     "type": "string"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "male": {
+     "type": "string"
+    },
+    "place": {
+     "type": "string",
+     "format": "int64"
+    },
+    "time": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "MeetingRecordCollection": {
+   "id": "MeetingRecordCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "MeetingRecord"
+     }
+    }
+   }
+  },
+  "PlaceRecord": {
+   "id": "PlaceRecord",
+   "type": "object",
+   "properties": {
+    "category": {
+     "type": "string"
+    },
+    "description": {
+     "type": "string"
+    },
+    "grade": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "location": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "opening": {
+     "type": "string"
+    },
+    "price": {
+     "type": "string"
+    },
+    "tel": {
+     "type": "string"
+    },
+    "views": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "PlaceRecordCollection": {
+   "id": "PlaceRecordCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "PlaceRecord"
+     }
+    }
+   }
+  },
+  "RegistrationRecord": {
+   "id": "RegistrationRecord",
+   "type": "object",
+   "properties": {
+    "regId": {
+     "type": "string"
+    }
+   }
+  },
+  "UserRecord": {
+   "id": "UserRecord",
+   "type": "object",
+   "properties": {
+    "age": {
+     "type": "integer",
+     "format": "int32"
+    },
+    "gender": {
+     "type": "boolean"
+    },
+    "id": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    }
+   }
+  },
+  "UserRecordCollection": {
+   "id": "UserRecordCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "UserRecord"
+     }
+    }
+   }
+  }
+ },
+ "methods": {
+  "matnamApi.addMeeting": {
+   "id": "matnamApi.addMeeting",
+   "parameters": {
+    "resource": {
+     "$ref": "MeetingRecord"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.addPlace": {
+   "id": "matnamApi.addPlace",
+   "parameters": {
+    "resource": {
+     "$ref": "PlaceRecord"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.addUser": {
+   "id": "matnamApi.addUser",
+   "parameters": {
+    "resource": {
+     "$ref": "UserRecord"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.deleteMeeting": {
+   "id": "matnamApi.deleteMeeting",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.deletePlace": {
+   "id": "matnamApi.deletePlace",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.deleteUser": {
+   "id": "matnamApi.deleteUser",
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.getMeeting": {
+   "id": "matnamApi.getMeeting",
+   "allowGet": true,
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "returns": {
+    "$ref": "MeetingRecord"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.getMeetings": {
+   "id": "matnamApi.getMeetings",
+   "allowGet": true,
+   "returns": {
+    "$ref": "MeetingRecordCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.getPlace": {
+   "id": "matnamApi.getPlace",
+   "allowGet": true,
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true,
+     "format": "int64"
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "returns": {
+    "$ref": "PlaceRecord"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.getPlaces": {
+   "id": "matnamApi.getPlaces",
+   "allowGet": true,
+   "returns": {
+    "$ref": "PlaceRecordCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.getUser": {
+   "id": "matnamApi.getUser",
+   "allowGet": true,
+   "parameters": {
+    "id": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "id"
+   ],
+   "returns": {
+    "$ref": "UserRecord"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.getUsers": {
+   "id": "matnamApi.getUsers",
+   "allowGet": true,
+   "returns": {
+    "$ref": "UserRecordCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.listDevices": {
+   "id": "matnamApi.listDevices",
+   "allowGet": true,
+   "parameters": {
+    "count": {
+     "type": "integer",
+     "required": true,
+     "format": "int32"
+    }
+   },
+   "parameterOrder": [
+    "count"
+   ],
+   "returns": {
+    "$ref": "CollectionResponse_RegistrationRecord"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.register": {
+   "id": "matnamApi.register",
+   "parameters": {
+    "regId": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "regId"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "matnamApi.unregister": {
+   "id": "matnamApi.unregister",
+   "parameters": {
+    "regId": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "regId"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  }
+ }
+}

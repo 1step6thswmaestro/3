@@ -24,12 +24,12 @@ import java.util.ArrayList;
  * @author manish.s
  *
  */
-public class LocationAdapter extends ArrayAdapter<Location> {
+public class LocationListAdapter extends ArrayAdapter<Location> {
     Context context;
     int layoutResourceId;
     ArrayList<Location> data = new ArrayList<Location>();
 
-    public LocationAdapter(Context context, int layoutResourceId, ArrayList<Location> data) {
+    public LocationListAdapter(Context context, int layoutResourceId, ArrayList<Location> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
