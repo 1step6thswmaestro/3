@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.soma.second.matnam.R;
 
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.MatnamApi;
 import com.soma.second.matnam.Utils.CloudEndpointBuildHelper;
+import com.soma.second.matnam.ui.widget.Indicator;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -29,6 +31,7 @@ import java.util.List;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
+	Indicator mIndicator;
 	MatnamApi matnamApi = null;
 	List<PlaceRecord> places;
 
@@ -39,8 +42,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		setContentView(R.layout.activity_login);
 		blurBehindBackAcitivity();
 
+		mIndicator = new Indicator(this);
+
 		Button loginButton = (Button) findViewById(R.id.loginButton);
 		loginButton.setOnClickListener(this);
+
+		new TestAsyncTask().execute("testID");
 	}
 
 	public void blurBehindBackAcitivity() {
@@ -55,8 +62,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.loginButton :
-				new TestAsyncTask().execute("testID");
-
 				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 				startActivity(intent);
 				finish();
@@ -95,6 +100,20 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 			}
 
 			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if (mIndicator.isShowing())
+				mIndicator.hide();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if ( !mIndicator.isShowing())
+				mIndicator.show();
 		}
 	}
 }

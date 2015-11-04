@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#44000000">
@@ -22,25 +23,34 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:id="@+id/logoView"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/ic_logo_64"
             android:paddingTop="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"/>
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+        <TextView
             android:id="@+id/logoTextView"
             android:layout_below="@id/logoView"
-            android:src="@drawable/ic_launcher"/>
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="맛남"/>
 
     </LinearLayout>
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
+    <com.victor.loading.rotate.RotateLoading
+        android:id="@+id/progressBar"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:id="@+id/progressBar"
+        app:loading_width="5dp"
+        app:loading_color="#ffffff"
         android:layout_centerInParent="true"/>
+
+    <!--<ProgressBar-->
+        <!--style="?android:attr/progressBarStyleLarge"-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:id="@+id/progressBar"-->
+        <!--android:layout_centerInParent="true"/>-->
 
 </RelativeLayout>

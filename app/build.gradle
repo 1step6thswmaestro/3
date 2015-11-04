@@ -29,11 +29,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile project(':library_blur-behind')
     compile project(':library_side-menu')
-    //    compile 'com.yalantis:sidemenu:1.0'
     compile('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
         transitive = true;
     }
@@ -54,5 +53,6 @@ dependencies {
     compile 'com.orhanobut:dialogplus:1.10@aar'
     compile 'com.wdullaer:materialdatetimepicker:1.5.4'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
-    compile project(path : ':backend', configuration: 'android-endpoints')
+    compile 'com.victor:lib:1.0.1'
+    compile project(path: ':backend', configuration: 'android-endpoints')
 }

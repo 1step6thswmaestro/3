@@ -17,10 +17,11 @@ public class PlaceRecord {
     private String opening;
     private String category;
     private String description;
+    private String img_url;
     private int grade;
     private int views;
 
-    public PlaceRecord(Long id, String name, String location, String tel, String price, String opening, String category, String description, int grade, int views) {
+    public PlaceRecord(Long id, String name, String location, String tel, String price, String opening, String category, String description, String img_url, int grade, int views) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -115,5 +116,13 @@ public class PlaceRecord {
 
     public void setViews(int views) {
         this.views = views;
+    }
+
+    public String getImg_url() {
+        return img_url;
+    }
+
+    public void setImg_url(String views) {
+        this.img_url = img_url;
     }
 }
