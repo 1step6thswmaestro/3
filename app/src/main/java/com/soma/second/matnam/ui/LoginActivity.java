@@ -1,29 +1,23 @@
 package com.soma.second.matnam.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.PlaceRecord;
-import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.PlaceRecordCollection;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.UserRecord;
 import com.faradaj.blurbehind.BlurBehind;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.soma.second.matnam.Constants;
 import com.soma.second.matnam.R;
 
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.MatnamApi;
 import com.soma.second.matnam.Utils.CloudEndpointBuildHelper;
 import com.soma.second.matnam.ui.widget.Indicator;
+import com.soma.second.matnam.listdubbies.provider.FoodImgUrls;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -46,8 +40,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 		Button loginButton = (Button) findViewById(R.id.loginButton);
 		loginButton.setOnClickListener(this);
-
-		new TestAsyncTask().execute("testID");
 	}
 
 	public void blurBehindBackAcitivity() {
@@ -62,15 +54,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.loginButton :
-				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-				startActivity(intent);
-				finish();
+				new TestAsyncTask().execute("testID");
 				break;
 		}
 	}
 
 	class TestAsyncTask extends AsyncTask<String, Void, String>{
-
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -93,12 +82,23 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 				e.printStackTrace();
 			}
 
-
+			int index = 0;
 			for(Iterator<PlaceRecord> iter = places.iterator();iter.hasNext();){
 				PlaceRecord place = iter.next();
-				Log.i("Places", "name : " + place.getImgUrl());
-			}
 
+				String foodName = place.getName();
+				String imgUrl = place.getImgUrl();
+
+				if (index < 10) {
+					FoodImgUrls.foodName_left[index] = foodName;
+					FoodImgUrls.foodImgUrl_left[index] = imgUrl;
+				} else if (index < 20 && index >= 10) {
+					FoodImgUrls.foodName_Right[index-10] = foodName;
+					FoodImgUrls.foodImgUrl_right[index-10] = imgUrl;
+				}
+
+				index++;
+			}
 			return null;
 		}
 
@@ -107,6 +107,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 			super.onPostExecute(result);
 			if (mIndicator.isShowing())
 				mIndicator.hide();
+
+			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+			startActivity(intent);
+			finish();
 		}
 
 		@Override

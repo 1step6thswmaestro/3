@@ -31,6 +31,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    compile project(path: ':backend', configuration: 'android-endpoints')
     compile project(':library_blur-behind')
     compile project(':library_side-menu')
     compile project(':library_loading')
@@ -54,5 +55,5 @@ dependencies {
     compile 'com.orhanobut:dialogplus:1.10@aar'
     compile 'com.wdullaer:materialdatetimepicker:1.5.4'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
-    compile project(path: ':backend', configuration: 'android-endpoints')
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }
