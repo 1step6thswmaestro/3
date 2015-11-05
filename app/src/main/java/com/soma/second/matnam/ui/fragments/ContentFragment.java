@@ -18,7 +18,7 @@ import com.soma.second.matnam.R;
  */
 public class ContentFragment extends Fragment implements ScreenShotable {
     public static final String CLOSE = "Close";
-    public static final String MAIN = "Main";
+    public static final String MYINFO = "MyInfo";
     public static final String ROOM = "Room";
     public static final String SEARCH = "Search";
     public static final String MAP = "Map";

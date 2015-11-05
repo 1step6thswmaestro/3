@@ -86,14 +86,17 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 			for(Iterator<PlaceRecord> iter = places.iterator();iter.hasNext();){
 				PlaceRecord place = iter.next();
 
+				long foodId = place.getId();
 				String foodName = place.getName();
 				String imgUrl = place.getImgUrl();
 
 				if (index < 10) {
+					FoodImgUrls.foodId_left[index] = foodId;
 					FoodImgUrls.foodName_left[index] = foodName;
 					FoodImgUrls.foodImgUrl_left[index] = imgUrl;
 				} else if (index < 20 && index >= 10) {
-					FoodImgUrls.foodName_Right[index-10] = foodName;
+					FoodImgUrls.foodId_right[index-10] = foodId;
+					FoodImgUrls.foodName_right[index-10] = foodName;
 					FoodImgUrls.foodImgUrl_right[index-10] = imgUrl;
 				}
 

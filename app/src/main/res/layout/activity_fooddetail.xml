@@ -40,7 +40,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_scrolling" />
+    <include layout="@layout/content_food_scrolling" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/like_fab"

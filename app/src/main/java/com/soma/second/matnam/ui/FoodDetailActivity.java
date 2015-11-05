@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.MatnamApi;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.PlaceRecord;
@@ -33,6 +34,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,16 +48,19 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cz.msebera.android.httpclient.Header;
 
-public class FoodDetailActivity extends BaseActivity {
+public class FoodDetailActivity extends BaseActivity implements View.OnClickListener {
 
+    MatnamApi matnamApi = null;
     Indicator mIndicator;
 
     ExpandableHeightGridView gridView;
     ArrayList<Food> foodArray = new ArrayList<Food>();
     FoodDetailGridAdapter foodDetailGridAdapter;
 
-    public static final String FOOD_IMG_URL = "url";
+    public static final String FOOD_ID = "id";
     public static final String FOOD_NAME = "name";
+    public static final String FOOD_IMG_URL = "url";
+
     @InjectView(R.id.image)
     ImageView mImageView;
 
@@ -66,6 +71,8 @@ public class FoodDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_fooddetail);
         mIndicator = new Indicator(this);
 
+        findViewById(R.id.like_fab).setOnClickListener(this);
+
         ButterKnife.inject(this);
         mBackground = mImageView;
 
@@ -74,8 +81,19 @@ public class FoodDetailActivity extends BaseActivity {
         foodDetailGridAdapter = new FoodDetailGridAdapter(this, R.layout.item_food, foodArray);
         gridView.setAdapter(foodDetailGridAdapter);
 
-        String imageUrl = getIntent().getExtras().getString(FOOD_IMG_URL);
+        long id = getIntent().getExtras().getLong(FOOD_ID);
         String name = getIntent().getExtras().getString(FOOD_NAME);
+        String imageUrl = getIntent().getExtras().getString(FOOD_IMG_URL);
+
+        new loadPlaceAsyncTask().execute(id);
+
+        Picasso.with(this).load(imageUrl).into((ImageView) findViewById(R.id.image), new Callback() {
+            @Override
+            public void onSuccess() { moveBackground(); }
+
+            @Override
+            public void onError() { }
+        });
 
         InstagramRestClient.get(InstagramRestClient.tagMediaRecent(name.trim()), null, new JsonHttpResponseHandler() {
 
@@ -92,7 +110,7 @@ public class FoodDetailActivity extends BaseActivity {
 
                 try {
                     JSONArray dataArr = response.getJSONArray("data");
-                    for(int i = 0; i < dataArr.length(); i++) {
+                    for (int i = 0; i < dataArr.length(); i++) {
                         JSONObject data = (JSONObject) dataArr.get(i);
                         String row_images_url = data.getJSONObject("images").getJSONObject("low_resolution").getString("url");
                         new loadBitmapAsyncTask().execute(row_images_url);
@@ -104,39 +122,12 @@ public class FoodDetailActivity extends BaseActivity {
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                if (mIndicator.isShowing())
-                    mIndicator.hide();
-            }
-
-            @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable e) {
                 if (mIndicator.isShowing())
                     mIndicator.hide();
             }
         });
 
-        Picasso.with(this).load(imageUrl).into((ImageView) findViewById(R.id.image), new Callback() {
-            @Override
-            public void onSuccess() {
-//                moveBackground();
-            }
-
-            @Override
-            public void onError() {
-            }
-        });
-
-
-
-        FloatingActionButton like_fab = (FloatingActionButton) findViewById(R.id.like_fab);
-        like_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(FoodDetailActivity.this, LikeListActivity.class);
-                startActivity(intent);
-            }
-        });
 
     }
 
@@ -146,11 +137,89 @@ public class FoodDetailActivity extends BaseActivity {
         overridePendingTransition(0, 0);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.like_fab :
+                Intent intent = new Intent(FoodDetailActivity.this, LikeListActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    class loadPlaceAsyncTask extends AsyncTask<Long, Void, PlaceRecord>{
+
+        @Override
+        protected PlaceRecord doInBackground(Long... params) {
+            if(matnamApi==null){
+                matnamApi = CloudEndpointBuildHelper.getEndpoints();
+            }
+
+            PlaceRecord placeRecord = null;
+            try {
+                placeRecord = matnamApi.getPlace(params[0]).execute();
+            } catch (IOException e) {
+                Log.e("API", "Error"+e.getMessage());
+                e.printStackTrace();
+            }
+            return placeRecord;
+        }
+
+        @Override
+        protected void onPostExecute(PlaceRecord result) {
+            super.onPostExecute(result);
+            if (mIndicator.isShowing())
+                mIndicator.hide();
+
+            TextView nameTextView = (TextView) findViewById(R.id.food_name);
+            nameTextView.setText(result.getName());
+
+            TextView categoryTextView = (TextView) findViewById(R.id.food_category);
+            categoryTextView.setText(result.getCategory());
+
+            TextView descriptionTextView = (TextView) findViewById(R.id.food_description);
+            descriptionTextView.setText("소개 : " + result.getDescription());
+
+            TextView locationTextView = (TextView) findViewById(R.id.food_location);
+            locationTextView.setText("위치 : " + result.getLocation());
+
+            TextView priceTextView = (TextView) findViewById(R.id.food_price);
+            priceTextView.setText("가격대 : " + result.getPrice());
+
+            TextView openingTextView = (TextView) findViewById(R.id.food_opening);
+            openingTextView.setText("영업시간 : " + result.getOpening());
+
+            TextView telTextView = (TextView) findViewById(R.id.food_tel);
+            telTextView.setText("전화번호 : " + result.getTel());
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if ( !mIndicator.isShowing())
+                mIndicator.show();
+        }
+    }
+
     class loadBitmapAsyncTask extends AsyncTask<String, Void, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            return getBitmapFromURL(params[0]);
+            HttpURLConnection connection = null;
+            try {
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            } finally{
+                if(connection!=null)connection.disconnect();
+            }
         }
 
         @Override
@@ -161,25 +230,6 @@ public class FoodDetailActivity extends BaseActivity {
                 foodDetailGridAdapter.notifyDataSetChanged();
         }
     }
-
-    public Bitmap getBitmapFromURL(String src) {
-        HttpURLConnection connection = null;
-        try {
-            URL url = new URL(src);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }finally{
-            if(connection!=null)connection.disconnect();
-        }
-    }
-
 }
 
 

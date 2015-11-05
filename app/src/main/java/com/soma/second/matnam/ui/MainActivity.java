@@ -257,7 +257,7 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
     private void createMenuList() {
         SlideMenuItem menuItem0 = new SlideMenuItem(ContentFragment.CLOSE, R.drawable.icn_close);
         list.add(menuItem0);
-        SlideMenuItem menuItem1 = new SlideMenuItem(ContentFragment.MAIN, R.drawable.ic_logo_64);
+        SlideMenuItem menuItem1 = new SlideMenuItem(ContentFragment.MYINFO, R.drawable.ic_user_64);
         list.add(menuItem1);
         SlideMenuItem menuItem2 = new SlideMenuItem(ContentFragment.ROOM, R.drawable.ic_likelist_64);
         list.add(menuItem2);
@@ -283,16 +283,20 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
 
     @Override
     public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable, int position) {
+
+        Intent intent;
+
         switch (slideMenuItem.getName()) {
             case ContentFragment.CLOSE:
                 return screenShotable;
 
-            case ContentFragment.MAIN:
-                manageFragment(ListBuddiesFragment.newInstance(isOpenActivitiesActivated), FragmentTags.LIST_BUDDIES, false);
+            case ContentFragment.MYINFO:
+                intent = new Intent(MainActivity.this, MyInfoActivity.class);
+                startActivity(intent);
                 return screenShotable;
 
             case ContentFragment.ROOM:
-                Intent intent = new Intent(MainActivity.this, LikeListActivity.class);
+                intent = new Intent(MainActivity.this, LikeListActivity.class);
                 startActivity(intent);
                 return screenShotable;
 

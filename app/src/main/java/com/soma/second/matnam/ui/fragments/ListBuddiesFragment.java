@@ -83,8 +83,9 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
     public void onBuddyItemClicked(AdapterView<?> parent, View view, int buddy, int position, long id) {
         if (isOpenActivities) {
             Intent intent = new Intent(getActivity(), FoodDetailActivity.class);
-            intent.putExtra(FoodDetailActivity.FOOD_IMG_URL, getImage(buddy, position));
+            intent.putExtra(FoodDetailActivity.FOOD_ID, getId(buddy, position));
             intent.putExtra(FoodDetailActivity.FOOD_NAME, getName(buddy, position));
+            intent.putExtra(FoodDetailActivity.FOOD_IMG_URL, getImage(buddy, position));
             startActivity(intent);
         } else {
             Resources resources = getResources();
@@ -92,12 +93,16 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
         }
     }
 
-    private String getImage(int buddy, int position) {
-        return buddy == 0 ? FoodImgUrls.foodImgUrl_left[position] : FoodImgUrls.foodImgUrl_right[position];
+    private long getId(int buddy, int position) {
+        return buddy == 0 ? FoodImgUrls.foodId_left[position] : FoodImgUrls.foodId_right[position];
     }
 
     private String getName(int buddy, int position) {
-        return buddy == 0 ? FoodImgUrls.foodName_left[position] : FoodImgUrls.foodName_Right[position];
+        return buddy == 0 ? FoodImgUrls.foodName_left[position] : FoodImgUrls.foodName_right[position];
+    }
+
+    private String getImage(int buddy, int position) {
+        return buddy == 0 ? FoodImgUrls.foodImgUrl_left[position] : FoodImgUrls.foodImgUrl_right[position];
     }
 
     public void setGap(int value) {
