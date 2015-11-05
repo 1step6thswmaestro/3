@@ -50,6 +50,7 @@ public class CircularAdapter extends CircularLoopAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.image.setMinimumHeight(mRowHeight);
+        holder.image.setTag("TEST");
 
         Picasso.with(mContext).load(getItem(position)).transform(new ScaleToFitWidhtHeigthTransform(mRowHeight, true)).skipMemoryCache().into(holder.image);
 
