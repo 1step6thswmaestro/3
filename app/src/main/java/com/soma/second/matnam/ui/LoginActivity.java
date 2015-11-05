@@ -91,7 +91,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 			for(Iterator<PlaceRecord> iter = places.iterator();iter.hasNext();){
 				PlaceRecord place = iter.next();
-				Log.i("Places", "name : " + place.getName());
+				Log.i("Places", "name : " + place.getImgUrl());
 			}
 
 			return null;
