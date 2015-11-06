@@ -117,9 +117,9 @@
     <orderEntry type="library" exported="" name="materialish-progress-1.0" level="project" />
     <orderEntry type="library" exported="" name="backend-android-endpoints" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-android-1.19.0" level="project" />
+    <orderEntry type="library" exported="" name="google-http-client-jackson2-1.19.0" level="project" />
     <orderEntry type="library" exported="" name="httpclient-4.3.6" level="project" />
     <orderEntry type="library" exported="" name="guava-jdk5-13.0" level="project" />
-    <orderEntry type="library" exported="" name="google-http-client-jackson2-1.19.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="advrecyclerview-0.8.2" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.0.0" level="project" />

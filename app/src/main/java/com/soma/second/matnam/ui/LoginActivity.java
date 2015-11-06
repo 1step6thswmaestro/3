@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import com.soma.second.matnam.R;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.MatnamApi;
 import com.soma.second.matnam.Utils.CloudEndpointBuildHelper;
 import com.soma.second.matnam.Utils.InstagramRestClient;
+import com.soma.second.matnam.ui.models.Food;
 import com.soma.second.matnam.ui.models.InstagramFollwer;
 import com.soma.second.matnam.ui.models.User;
 import com.soma.second.matnam.ui.widget.Indicator;
@@ -177,7 +179,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 					DataProvider.foodName_right[index - 10] = foodName;
 					DataProvider.foodImgUrl_right[index - 10] = imgUrl;
 				}
-
 				index++;
 			}
 			return null;
@@ -186,8 +187,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			if (mIndicator.isShowing())
-				mIndicator.hide();
 
 			String UserUrl = InstagramRestClient.userInfo(User.getId());
 			InstagramRestClient.get(UserUrl, null, new JsonHttpResponseHandler() {
@@ -306,18 +305,56 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		}
 
 		@Override
-		protected void onPostExecute(List<LikeRoomRecord> result) {
-			super.onPostExecute(result);
-			DataProvider.likeRoomRecordList = result;
+		protected void onPostExecute(List<LikeRoomRecord> resultList) {
+			super.onPostExecute(resultList);
+			DataProvider.likeRoomRecordList = resultList;
 
-			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-			startActivity(intent);
-			finish();
+			for(LikeRoomRecord data : resultList) {
+				new loadFoodImgAsyncTask().execute(data.getPlaceId());
+			}
+
+			Handler mHandler = new Handler();
+			mHandler.postDelayed(new Runnable() {
+				//Do Something
+				@Override
+				public void run() {
+					if (mIndicator.isShowing())
+						mIndicator.hide();
+
+					Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+					startActivity(intent);
+					finish();
+				}
+			}, 1000 * 3);
+
 		}
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+		}
+	}
+
+	class loadFoodImgAsyncTask extends AsyncTask<Long, Void, Bitmap> {
+
+		@Override
+		protected Bitmap doInBackground(Long... params) {
+
+			PlaceRecord place = null;
+			try {
+				long place_id = params[0];
+				place = matnamApi.getPlace(place_id).execute();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return loadBitmap(place.getImgUrl());
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			super.onPostExecute(result);
+			DataProvider.likeRoomFoodImgList.add(result);
 		}
 	}
 

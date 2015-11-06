@@ -1,5 +1,7 @@
 package com.soma.second.matnam.listdubbies.provider;
 
+import android.graphics.Bitmap;
+
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.LikeRoomRecord;
 import com.soma.second.matnam.ui.models.InstagramFollwer;
 
@@ -18,6 +20,8 @@ public class DataProvider {
     public static String[] foodImgUrl_right = new String[10];
 
     public static ArrayList<InstagramFollwer> instagramFollwerList = new ArrayList<>();
-    public static List<LikeRoomRecord> likeRoomRecordList;
 
+    public static List<LikeRoomRecord> likeRoomRecordList;
+    public static List<Bitmap> likeRoomFoodImgList = new ArrayList<>();
+    public static List<List> likeRoomProfileImgList = new ArrayList<>();
 }

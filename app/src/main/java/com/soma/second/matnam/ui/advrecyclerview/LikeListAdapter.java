@@ -16,15 +16,21 @@
 
 package com.soma.second.matnam.ui.advrecyclerview;
 
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.soma.second.matnam.R;
+import com.soma.second.matnam.Utils.InstagramRestClient;
+import com.soma.second.matnam.listdubbies.provider.DataProvider;
 import com.soma.second.matnam.ui.advrecyclerview.data.AbstractExpandableDataProvider;
 import com.soma.second.matnam.ui.advrecyclerview.widget.ExpandableItemIndicator;
 import com.soma.second.matnam.ui.advrecyclerview.utils.DrawableUtils;
@@ -44,6 +50,14 @@ import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAct
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractDraggableSwipeableItemViewHolder;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.utils.RecyclerViewAdapterUtils;
+import com.soma.second.matnam.ui.models.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
+
+import static com.soma.second.matnam.Utils.Utils.loadBitmap;
 
 class LikeListAdapter
         extends AbstractExpandableItemAdapter<LikeListAdapter.MyGroupViewHolder, LikeListAdapter.MyChildViewHolder>
@@ -81,6 +95,7 @@ class LikeListAdapter
         public FrameLayout mContainer;
         public View mDragHandle;
         public TextView mTitleTextView, mDateTextView, mMemberCountTextView, mNameTextView;
+        public ImageView mFoodImgView, mUserImgView;
         private int mExpandStateFlags;
 
         public MyBaseViewHolder(View v) {
@@ -114,6 +129,7 @@ class LikeListAdapter
             mTitleTextView = (TextView) v.findViewById(R.id.like_room_title_text);
             mDateTextView = (TextView) v.findViewById(R.id.like_room_date_text);
             mMemberCountTextView = (TextView) v.findViewById(R.id.like_room_m_count_text);
+            mFoodImgView = (ImageView) v.findViewById(R.id.like_room_food_img);
         }
     }
 
@@ -121,6 +137,7 @@ class LikeListAdapter
         public MyChildViewHolder(View v) {
             super(v);
             mNameTextView = (TextView) v.findViewById(R.id.like_room_child_name_text);
+            mUserImgView = (ImageView) v.findViewById(R.id.like_room_child_profile_img);
         }
 
     }
@@ -208,6 +225,7 @@ class LikeListAdapter
     public void onBindGroupViewHolder(MyGroupViewHolder holder, int groupPosition, int viewType) {
         // group item
         final AbstractExpandableDataProvider.GroupData item = mProvider.getGroupItem(groupPosition);
+        final Bitmap foodImg = DataProvider.likeRoomFoodImgList.get(groupPosition);
 
         // set listeners
         holder.itemView.setOnClickListener(mItemViewOnClickListener);
@@ -216,6 +234,7 @@ class LikeListAdapter
         holder.mTitleTextView.setText(item.getTitle());
         holder.mDateTextView.setText(item.getDate());
         holder.mMemberCountTextView.setText(item.getMemberCount() + "명");
+        holder.mFoodImgView.setImageBitmap(foodImg);
 
         // set background resource (target view ID: container)
         final int dragState = holder.getDragStateFlags();
@@ -275,6 +294,30 @@ class LikeListAdapter
         // set text
         holder.mNameTextView.setText(item.getName());
 
+        final ImageView imageView = holder.mUserImgView;
+
+        String UserUrl = InstagramRestClient.userInfo(item.getName());
+        InstagramRestClient.get(UserUrl, null, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    JSONObject data = response.getJSONObject("data");
+//                    String userName = data.getString("user_name");
+//                    String fullName = data.getString("full_name");
+                    String profileImgUrl = data.getString("profile_picture");
+
+//                    holder.mNameTextView.setText(userName + "(" + fullName + ")"
+                    new setUserProfileImgAsyncTask(imageView).execute(profileImgUrl);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
+
         final int dragState = holder.getDragStateFlags();
         final int swipeState = holder.getSwipeStateFlags();
 
@@ -303,6 +346,26 @@ class LikeListAdapter
         // set swiping properties
         holder.setSwipeItemHorizontalSlideAmount(
                 item.isPinned() ? Swipeable.OUTSIDE_OF_THE_WINDOW_LEFT : 0);
+    }
+
+    class setUserProfileImgAsyncTask extends AsyncTask<String, Void, Bitmap> {
+
+        ImageView ImageView;
+
+        setUserProfileImgAsyncTask(ImageView imageView) {
+            this.ImageView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            return loadBitmap(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            ImageView.setImageBitmap(result);
+        }
     }
 
     @Override
