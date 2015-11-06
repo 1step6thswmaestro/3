@@ -5,27 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.MatnamApi;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.PlaceRecord;
-import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.UserRecord;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.Utils.CloudEndpointBuildHelper;
 import com.soma.second.matnam.Utils.InstagramRestClient;
-import com.soma.second.matnam.listdubbies.provider.FoodImgUrls;
 import com.soma.second.matnam.ui.adapters.FoodDetailGridAdapter;
-import com.soma.second.matnam.ui.adapters.FriendGridAdapter;
 import com.soma.second.matnam.ui.advrecyclerview.LikeListActivity;
 import com.soma.second.matnam.ui.models.Food;
-import com.soma.second.matnam.ui.models.Friend;
 import com.soma.second.matnam.ui.widget.ExpandableHeightGridView;
 import com.soma.second.matnam.ui.widget.Indicator;
 import com.squareup.picasso.Callback;
@@ -34,19 +27,18 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cz.msebera.android.httpclient.Header;
+
+import static com.soma.second.matnam.Utils.Utils.loadBitmap;
 
 public class FoodDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -205,21 +197,7 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            } finally{
-                if(connection!=null)connection.disconnect();
-            }
+            return loadBitmap(params[0]);
         }
 
         @Override

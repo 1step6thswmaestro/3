@@ -16,7 +16,7 @@ import com.jpardogo.listbuddies.lib.views.ListBuddiesLayout;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.listdubbies.adapters.CircularAdapter;
 import com.soma.second.matnam.listdubbies.provider.ExtraArgumentKeys;
-import com.soma.second.matnam.listdubbies.provider.FoodImgUrls;
+import com.soma.second.matnam.listdubbies.provider.DataProvider;
 import com.soma.second.matnam.ui.FoodDetailActivity;
 
 import java.util.ArrayList;
@@ -63,8 +63,8 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
 
         //If we do this we need to uncomment the container on the xml layout
         //createListBuddiesLayoutDinamically(rootView);
-        mImagesLeft.addAll(Arrays.asList(FoodImgUrls.foodImgUrl_left));
-        mImagesRight.addAll(Arrays.asList(FoodImgUrls.foodImgUrl_right));
+        mImagesLeft.addAll(Arrays.asList(DataProvider.foodImgUrl_left));
+        mImagesRight.addAll(Arrays.asList(DataProvider.foodImgUrl_right));
         mAdapterLeft = new CircularAdapter(getActivity(), getResources().getDimensionPixelSize(R.dimen.item_height_small), mImagesLeft);
         mAdapterRight = new CircularAdapter(getActivity(), getResources().getDimensionPixelSize(R.dimen.item_height_tall), mImagesRight);
         mListBuddies.setAdapters(mAdapterLeft, mAdapterRight);
@@ -94,15 +94,15 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
     }
 
     private long getId(int buddy, int position) {
-        return buddy == 0 ? FoodImgUrls.foodId_left[position] : FoodImgUrls.foodId_right[position];
+        return buddy == 0 ? DataProvider.foodId_left[position] : DataProvider.foodId_right[position];
     }
 
     private String getName(int buddy, int position) {
-        return buddy == 0 ? FoodImgUrls.foodName_left[position] : FoodImgUrls.foodName_right[position];
+        return buddy == 0 ? DataProvider.foodName_left[position] : DataProvider.foodName_right[position];
     }
 
     private String getImage(int buddy, int position) {
-        return buddy == 0 ? FoodImgUrls.foodImgUrl_left[position] : FoodImgUrls.foodImgUrl_right[position];
+        return buddy == 0 ? DataProvider.foodImgUrl_left[position] : DataProvider.foodImgUrl_right[position];
     }
 
     public void setGap(int value) {

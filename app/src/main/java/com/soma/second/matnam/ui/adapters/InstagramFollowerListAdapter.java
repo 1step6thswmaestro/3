@@ -14,8 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.soma.second.matnam.R;
-import com.soma.second.matnam.ui.models.Friend;
-import com.soma.second.matnam.ui.models.Insta;
+import com.soma.second.matnam.ui.models.InstagramFollwer;
 
 import java.util.ArrayList;
 
@@ -24,12 +23,12 @@ import java.util.ArrayList;
  * @author manish.s
  *
  */
-public class InstaListAdapter extends ArrayAdapter<Insta> {
+public class InstagramFollowerListAdapter extends ArrayAdapter<InstagramFollwer> {
     Context context;
     int layoutResourceId;
-    ArrayList<Insta> data = new ArrayList<Insta>();
+    ArrayList<InstagramFollwer> data = new ArrayList<InstagramFollwer>();
 
-    public InstaListAdapter(Context context, int layoutResourceId, ArrayList<Insta> data) {
+    public InstagramFollowerListAdapter(Context context, int layoutResourceId, ArrayList<InstagramFollwer> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -53,9 +52,9 @@ public class InstaListAdapter extends ArrayAdapter<Insta> {
             holder = (RecordHolder) row.getTag();
         }
 
-        Insta item = data.get(position);
-        holder.txtTitle.setText(item.getName());
-//        holder.imageItem.setImageBitmap(item.getUrl());
+        InstagramFollwer item = data.get(position);
+        holder.txtTitle.setText(item.getUserName() + " (" + item.getFullName() + ")");
+        holder.imageItem.setImageBitmap(item.getProfileImg());
         return row;
 
     }

@@ -2,6 +2,7 @@ package com.soma.second.matnam.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,16 +13,28 @@ import android.widget.Button;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.PlaceRecord;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.UserRecord;
 import com.faradaj.blurbehind.BlurBehind;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.soma.second.matnam.R;
 
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.MatnamApi;
 import com.soma.second.matnam.Utils.CloudEndpointBuildHelper;
+import com.soma.second.matnam.Utils.InstagramRestClient;
+import com.soma.second.matnam.ui.models.InstagramFollwer;
+import com.soma.second.matnam.ui.models.User;
 import com.soma.second.matnam.ui.widget.Indicator;
-import com.soma.second.matnam.listdubbies.provider.FoodImgUrls;
+import com.soma.second.matnam.listdubbies.provider.DataProvider;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
+
+import static com.soma.second.matnam.Utils.Utils.loadBitmap;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
@@ -40,6 +53,92 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 		Button loginButton = (Button) findViewById(R.id.loginButton);
 		loginButton.setOnClickListener(this);
+
+		String UserUrl = InstagramRestClient.userInfo(User.getId());
+		InstagramRestClient.get(UserUrl, null, new JsonHttpResponseHandler() {
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+				try {
+					JSONObject data = response.getJSONObject("data");
+					String id = data.getString("id");
+					String fullName = data.getString("full_name");
+					String userName = data.getString("username");
+					String profileImgUrl = data.getString("profile_picture");
+
+					User.setFullName(fullName);
+					User.setUserName(userName);
+
+					new setUserProfileImgAsyncTask().execute(profileImgUrl);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+			}
+
+		});
+
+		String FollowerUrl = InstagramRestClient.userFollows(User.getId());
+		InstagramRestClient.get(FollowerUrl, null, new JsonHttpResponseHandler() {
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+				try {
+					JSONArray dataArr = response.getJSONArray("data");
+					for (int i = 0; i < dataArr.length(); i++) {
+						JSONObject data = (JSONObject) dataArr.get(i);
+						String id = data.getString("id");
+						String fullName = data.getString("full_name");
+						String userName = data.getString("username");
+						String profileImgUrl = data.getString("profile_picture");
+
+						new saveInstaFollowerAsyncTask(id, fullName, userName).execute(profileImgUrl);
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+			}
+
+		});
+	}
+
+	class setUserProfileImgAsyncTask extends AsyncTask<String, Void, Bitmap> {
+
+		@Override
+		protected Bitmap doInBackground(String... params) {
+			return loadBitmap(params[0]);
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			super.onPostExecute(result);
+			User.setProfileImg(result);
+		}
+	}
+
+	class saveInstaFollowerAsyncTask extends AsyncTask<String, Void, Bitmap> {
+
+		String id, fullName, userName;
+
+		saveInstaFollowerAsyncTask(String _id, String _fullName, String _userName) {
+			this.id = _id;
+			this.fullName = _fullName;
+			this.userName = _userName;
+		}
+
+		@Override
+		protected Bitmap doInBackground(String... params) {
+			return loadBitmap(params[0]);
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			super.onPostExecute(result);
+			DataProvider.instagramFollwerList.add(new InstagramFollwer(id, fullName, userName, result));
+		}
 	}
 
 	public void blurBehindBackAcitivity() {
@@ -49,17 +148,16 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 				.setBackground(this);
 	}
 
-
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.loginButton :
-				new TestAsyncTask().execute("testID");
+				new initLoadingAsyncTask().execute("testID");
 				break;
 		}
 	}
 
-	class TestAsyncTask extends AsyncTask<String, Void, String>{
+	class initLoadingAsyncTask extends AsyncTask<String, Void, String>{
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -91,13 +189,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 				String imgUrl = place.getImgUrl();
 
 				if (index < 10) {
-					FoodImgUrls.foodId_left[index] = foodId;
-					FoodImgUrls.foodName_left[index] = foodName;
-					FoodImgUrls.foodImgUrl_left[index] = imgUrl;
+					DataProvider.foodId_left[index] = foodId;
+					DataProvider.foodName_left[index] = foodName;
+					DataProvider.foodImgUrl_left[index] = imgUrl;
 				} else if (index < 20 && index >= 10) {
-					FoodImgUrls.foodId_right[index-10] = foodId;
-					FoodImgUrls.foodName_right[index-10] = foodName;
-					FoodImgUrls.foodImgUrl_right[index-10] = imgUrl;
+					DataProvider.foodId_right[index-10] = foodId;
+					DataProvider.foodName_right[index-10] = foodName;
+					DataProvider.foodImgUrl_right[index-10] = imgUrl;
 				}
 
 				index++;
@@ -123,4 +221,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 				mIndicator.show();
 		}
 	}
+
+
 }

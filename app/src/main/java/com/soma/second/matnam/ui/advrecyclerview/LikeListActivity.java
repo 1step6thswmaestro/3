@@ -26,14 +26,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.soma.second.matnam.R;
-import com.soma.second.matnam.ui.ComposeFriendActivity;
-import com.soma.second.matnam.ui.InviteFriendActivity;
+import com.soma.second.matnam.ui.MakeRoomWithFriendActivity;
+import com.soma.second.matnam.ui.RequestWithFriendActivity;
 import com.soma.second.matnam.ui.advrecyclerview.data.AbstractExpandableDataProvider;
 import com.soma.second.matnam.ui.advrecyclerview.fragment.ExampleExpandableDataProviderFragment;
 import com.soma.second.matnam.ui.advrecyclerview.fragment.ExpandableItemPinnedMessageDialogFragment;
@@ -120,7 +118,7 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
      */
     public void onGroupItemPinned(int groupPosition) {
 
-        Intent intent = new Intent(LikeListActivity.this, InviteFriendActivity.class);
+        Intent intent = new Intent(LikeListActivity.this, RequestWithFriendActivity.class);
         startActivity(intent);
     }
 
@@ -239,7 +237,7 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
                 break;
 
             case R.id.pick_friend_textview :
-                Intent intent = new Intent(LikeListActivity.this, ComposeFriendActivity.class);
+                Intent intent = new Intent(LikeListActivity.this, MakeRoomWithFriendActivity.class);
                 startActivity(intent);
                 break;
 

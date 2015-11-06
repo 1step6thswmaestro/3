@@ -52,14 +52,14 @@
         </activity>
         <activity android:name=".ui.advrecyclerview.LikeListActivity" >
         </activity>
-        <activity android:name=".ui.InviteFriendActivity" >
+        <activity android:name=".ui.RequestWithFriendActivity" >
         </activity>
         <activity
             android:name=".ui.RequestJoinActivity"
             android:label="@string/title_activity_request_join"
             android:theme="@style/AppTheme" >
         </activity>
-        <activity android:name=".ui.ComposeFriendActivity" >
+        <activity android:name=".ui.MakeRoomWithFriendActivity" >
         </activity>
         <activity android:name=".ui.MyInfoActivity" >
         </activity>
