@@ -131,10 +131,12 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
     public void onChildItemPinned(int groupPosition, int childPosition) {
         final DialogFragment dialog = ExpandableItemPinnedMessageDialogFragment.newInstance(groupPosition, childPosition);
 
-        getSupportFragmentManager()
+        /*getSupportFragmentManager()
                 .beginTransaction()
                 .add(dialog, FRAGMENT_TAG_ITEM_PINNED_DIALOG)
-                .commit();
+                .commit();*/
+        ProfileDialog profileDialog = new ProfileDialog(LikeListActivity.this);
+        profileDialog.show();
     }
 
     public void onGroupItemClicked(int groupPosition) {
