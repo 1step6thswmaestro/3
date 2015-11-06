@@ -1,7 +1,7 @@
 package com.example.kimyoungjoon.myapplication.backend.apis;
 
 import com.example.kimyoungjoon.myapplication.backend.Constants;
-import com.example.kimyoungjoon.myapplication.backend.models.MeetingRecord;
+import com.example.kimyoungjoon.myapplication.backend.models.LikeRoomRecord;
 import com.google.api.server.spi.ServiceException;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiClass;
@@ -41,25 +41,25 @@ public class MeetingEndpoint {
     private static final Logger LOG = Logger
             .getLogger(MeetingEndpoint.class.getName());
 
-    @ApiMethod(name = "getMeetings")
-    public final List<MeetingRecord> getMeetings(){
-        return ofy().load().type(MeetingRecord.class).list();
+    @ApiMethod(name = "getLikeRooms")
+    public final List<LikeRoomRecord> getLikeRooms(){
+        return ofy().load().type(LikeRoomRecord.class).list();
     }
 
-    @ApiMethod(name = "getMeeting")
-    public final MeetingRecord getMeeting(@Named("id") String id){
-        return ofy().load().type(MeetingRecord.class).id(id).now();
+    @ApiMethod(name = "getLikeRoom")
+    public final LikeRoomRecord getLikeRoom(@Named("id") String id){
+        return ofy().load().type(LikeRoomRecord.class).id(id).now();
     }
 
-    @ApiMethod(name = "addMeeting")
-    public final void addMeeting(MeetingRecord meeting){
+    @ApiMethod(name = "addLikeRoom")
+    public final void addLikeRoom(LikeRoomRecord meeting){
         ofy().save().entity(meeting).now();
     }
 
-    @ApiMethod(name = "deleteMeeting")
-    public final void deleteMeeting(@Named("id") String id) throws ServiceException {
+    @ApiMethod(name = "deleteLikeRoom")
+    public final void deleteLikeRoom(@Named("id") String id) throws ServiceException {
 
-        MeetingRecord meeting = ofy().load().type(MeetingRecord.class).id(id).now();
+        LikeRoomRecord meeting = ofy().load().type(LikeRoomRecord.class).id(id).now();
         if(meeting==null){
             LOG.info(
                     "Meeting " + id + " not found, skipping deletion.");

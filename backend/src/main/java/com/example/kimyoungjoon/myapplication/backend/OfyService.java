@@ -1,6 +1,6 @@
 package com.example.kimyoungjoon.myapplication.backend;
 
-import com.example.kimyoungjoon.myapplication.backend.models.MeetingRecord;
+import com.example.kimyoungjoon.myapplication.backend.models.LikeRoomRecord;
 import com.example.kimyoungjoon.myapplication.backend.models.PlaceRecord;
 import com.example.kimyoungjoon.myapplication.backend.models.RegistrationRecord;
 import com.example.kimyoungjoon.myapplication.backend.models.UserRecord;
@@ -18,7 +18,7 @@ public class OfyService {
         ObjectifyService.register(RegistrationRecord.class);
         ObjectifyService.register(PlaceRecord.class);
         ObjectifyService.register(UserRecord.class);
-        ObjectifyService.register(MeetingRecord.class);
+        ObjectifyService.register(LikeRoomRecord.class);
     }
 
     public static Objectify ofy() {

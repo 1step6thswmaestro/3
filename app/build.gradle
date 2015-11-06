@@ -57,4 +57,5 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile project(':backend')
 }
