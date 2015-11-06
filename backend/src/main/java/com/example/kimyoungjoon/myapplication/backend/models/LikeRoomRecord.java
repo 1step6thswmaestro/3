@@ -11,13 +11,15 @@ public class LikeRoomRecord {
     @Id
     private Long id;
     private Long place_id;
+    private String title;
     private String date;
     private String members_id;
     private int member_count;
 
-    public LikeRoomRecord(Long id, Long place, String date, String members_id, int member_count) {
+    public LikeRoomRecord(Long id, Long place, String title, String date, String members_id, int member_count) {
         this.id = id;
         this.place_id = place;
+        this.title = title;
         this.date = date;
         this.members_id = members_id;
         this.member_count = member_count;
@@ -41,6 +43,14 @@ public class LikeRoomRecord {
 
     public void setPlace_id(Long place_id) {
         this.place_id = place_id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDate() {

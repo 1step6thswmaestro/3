@@ -10,9 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.LikeRoomRecord;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.PlaceRecord;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.UserRecord;
-import com.example.kimyoungjoon.myapplication.backend.models.LikeRoomRecord;
 import com.faradaj.blurbehind.BlurBehind;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.soma.second.matnam.R;
@@ -239,9 +239,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 			});
 
-			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-			startActivity(intent);
-			finish();
+			new loadLikeRoomDataAsyncTask().execute();
 		}
 
 		@Override
@@ -251,8 +249,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 				mIndicator.show();
 		}
 	}
-
-
 
 	class setUserProfileImgAsyncTask extends AsyncTask<String, Void, Bitmap> {
 
@@ -287,10 +283,42 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		protected void onPostExecute(Bitmap result) {
 			super.onPostExecute(result);
 			DataProvider.instagramFollwerList.add(new InstagramFollwer(id, fullName, userName, result));
-
-//
 		}
 	}
 
+	class loadLikeRoomDataAsyncTask extends AsyncTask<String, Void, List<LikeRoomRecord>> {
+
+		List<LikeRoomRecord> likeRoomRecordList;
+
+		@Override
+		protected List<LikeRoomRecord> doInBackground(String... params) {
+			if (matnamApi == null) {
+				matnamApi = CloudEndpointBuildHelper.getEndpoints();
+			}
+
+			try {
+				likeRoomRecordList = matnamApi.getLikeRooms().execute().getItems();
+			} catch (IOException e) {
+				Log.e("API", "Error" + e.getMessage());
+				e.printStackTrace();
+			}
+			return likeRoomRecordList;
+		}
+
+		@Override
+		protected void onPostExecute(List<LikeRoomRecord> result) {
+			super.onPostExecute(result);
+			DataProvider.likeRoomRecordList = result;
+
+			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+			startActivity(intent);
+			finish();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+	}
 
 }

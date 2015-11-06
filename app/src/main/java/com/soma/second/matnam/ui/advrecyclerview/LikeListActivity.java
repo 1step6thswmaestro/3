@@ -33,7 +33,7 @@ import com.soma.second.matnam.R;
 import com.soma.second.matnam.ui.MakeRoomWithFriendActivity;
 import com.soma.second.matnam.ui.RequestWithFriendActivity;
 import com.soma.second.matnam.ui.advrecyclerview.data.AbstractExpandableDataProvider;
-import com.soma.second.matnam.ui.advrecyclerview.fragment.ExampleExpandableDataProviderFragment;
+import com.soma.second.matnam.ui.advrecyclerview.fragment.LikeRoomDataProviderFragment;
 import com.soma.second.matnam.ui.advrecyclerview.fragment.ExpandableItemPinnedMessageDialogFragment;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -54,7 +54,7 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(new ExampleExpandableDataProviderFragment(), FRAGMENT_TAG_DATA_PROVIDER)
+                    .add(new LikeRoomDataProviderFragment(), FRAGMENT_TAG_DATA_PROVIDER)
                     .commit();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new RecyclerListViewFragment(), FRAGMENT_LIST_VIEW)
@@ -197,7 +197,7 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
 
     public AbstractExpandableDataProvider getDataProvider() {
         final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_DATA_PROVIDER);
-        return ((ExampleExpandableDataProviderFragment) fragment).getDataProvider();
+        return ((LikeRoomDataProviderFragment) fragment).getDataProvider();
     }
 
     @Override

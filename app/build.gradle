@@ -8,10 +8,9 @@ repositories {
     }
 }
 
-
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.soma.second.matnam"
@@ -40,13 +39,13 @@ dependencies {
     }
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:cardview-v7:23.1.0'
+    compile 'com.android.support:design:23.1.0'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.squareup.picasso:picasso:2.3.3'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.github.rey5137:material:1.2.1'
     compile 'com.jpardogo.listbuddies:library:1.1.1'
-    compile 'com.android.support:design:23.1.0'
     compile('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.8.2@aar') {
         transitive = true
     }
@@ -57,5 +56,4 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile project(':backend')
 }

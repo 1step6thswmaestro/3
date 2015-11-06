@@ -17,15 +17,23 @@
 package com.soma.second.matnam.ui.advrecyclerview.data;
 
 
+import android.os.AsyncTask;
 import android.support.v4.util.Pair;
+import android.util.Log;
 
+import com.example.kimyoungjoon.myapplication.backend.matnamApi.MatnamApi;
+import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.LikeRoomRecord;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
+import com.soma.second.matnam.Utils.CloudEndpointBuildHelper;
+import com.soma.second.matnam.listdubbies.provider.DataProvider;
+import com.soma.second.matnam.ui.models.LikeRoom;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ExampleExpandableDataProvider extends AbstractExpandableDataProvider {
+public class LikeRoomDataProvider extends AbstractExpandableDataProvider {
     private List<Pair<GroupData, List<ChildData>>> mData;
 
     // for undo group item
@@ -37,27 +45,39 @@ public class ExampleExpandableDataProvider extends AbstractExpandableDataProvide
     private long mLastRemovedChildParentGroupId = -1;
     private int mLastRemovedChildPosition = -1;
 
-    public ExampleExpandableDataProvider() {
-        final String[] groupItems = {"방 제목부분 입니다", "배고파요", "같이 드실래요?"};
-        final String[] childItems = {"UserName", "NickName", "Instagram Name"};
+    MatnamApi matnamApi = null;
+
+    public LikeRoomDataProvider() {
+
+        List<LikeRoomRecord> likeRoomRecordList = DataProvider.likeRoomRecordList;
 
         mData = new LinkedList<>();
 
-        for (int i = 0; i < groupItems.length; i++) {
+        for (int i = 0; i < likeRoomRecordList.size(); i++) {
             //noinspection UnnecessaryLocalVariable
             final long groupId = i;
-            final String groupText = groupItems[i];
-            final ConcreteGroupData group = new ConcreteGroupData(groupId, groupText);
+
+            LikeRoomRecord likeRoomRecord = likeRoomRecordList.get(i);
+            final long roomId = likeRoomRecord.getId();
+            final long placeId = likeRoomRecord.getPlaceId();
+            final String title = likeRoomRecord.getTitle();
+            String[] dateArr = likeRoomRecord.getDate().split(" ");
+            final String date = dateArr[5] + "." + dateArr[1] + "." + dateArr[2];
+            String membersId = likeRoomRecord.getMembersId();
+            final int memberCount = likeRoomRecord.getMemberCount();
+            String[] memberIdArr = membersId.split(",");
+//            final String groupText = groupItems[i];
+            final LikeRoom.GroupData likeRoomGroup = new LikeRoom.GroupData(groupId, roomId, placeId, title, date, membersId, memberCount);
             final List<ChildData> children = new ArrayList<>();
 
-            for (int j = 0; j < childItems.length; j++) {
-                final long childId = group.generateNewChildId();
-                final String childText = childItems[j];
+            for (int j = 0; j < memberIdArr.length; j++) {
+                final long childId = likeRoomGroup.generateNewChildId();
+                final String childText = memberIdArr[j];
 
-                children.add(new ConcreteChildData(childId, childText));
+                children.add(new LikeRoom.ChildData(childId, childText));
             }
 
-            mData.add(new Pair<GroupData, List<ChildData>>(group, children));
+            mData.add(new Pair<GroupData, List<ChildData>>(likeRoomGroup, children));
         }
     }
 
@@ -114,11 +134,11 @@ public class ExampleExpandableDataProvider extends AbstractExpandableDataProvide
         final Pair<GroupData, List<ChildData>> fromGroup = mData.get(fromGroupPosition);
         final Pair<GroupData, List<ChildData>> toGroup = mData.get(toGroupPosition);
 
-        final ConcreteChildData item = (ConcreteChildData) fromGroup.second.remove(fromChildPosition);
+        final LikeRoom.ChildData item = (LikeRoom.ChildData) fromGroup.second.remove(fromChildPosition);
 
         if (toGroupPosition != fromGroupPosition) {
             // assign a new ID
-            final long newId = ((ConcreteGroupData) toGroup.first).generateNewChildId();
+            final long newId = ((LikeRoom.GroupData) toGroup.first).generateNewChildId();
             item.setChildId(newId);
         }
 
@@ -204,86 +224,5 @@ public class ExampleExpandableDataProvider extends AbstractExpandableDataProvide
         mLastRemovedChild = null;
 
         return RecyclerViewExpandableItemManager.getPackedPositionForChild(groupPosition, insertedPosition);
-    }
-
-    public static final class ConcreteGroupData extends GroupData {
-
-        private final long mId;
-        private final String mText;
-        private boolean mPinned;
-        private long mNextChildId;
-
-        ConcreteGroupData(long id, String text) {
-            mId = id;
-            mText = text;
-            mNextChildId = 0;
-        }
-
-        @Override
-        public long getGroupId() {
-            return mId;
-        }
-
-        @Override
-        public boolean isSectionHeader() {
-            return false;
-        }
-
-        @Override
-        public String getText() {
-            return mText;
-        }
-
-        @Override
-        public void setPinned(boolean pinnedToSwipeLeft) {
-            mPinned = pinnedToSwipeLeft;
-        }
-
-        @Override
-        public boolean isPinned() {
-            return mPinned;
-        }
-
-        public long generateNewChildId() {
-            final long id = mNextChildId;
-            mNextChildId += 1;
-            return id;
-        }
-    }
-
-    public static final class ConcreteChildData extends ChildData {
-
-        private long mId;
-        private final String mText;
-        private boolean mPinned;
-
-        ConcreteChildData(long id, String text) {
-            mId = id;
-            mText = text;
-        }
-
-        @Override
-        public long getChildId() {
-            return mId;
-        }
-
-        @Override
-        public String getText() {
-            return mText;
-        }
-
-        @Override
-        public void setPinned(boolean pinned) {
-            mPinned = pinned;
-        }
-
-        @Override
-        public boolean isPinned() {
-            return mPinned;
-        }
-
-        public void setChildId(long id) {
-            this.mId = id;
-        }
     }
 }

@@ -80,14 +80,13 @@ class LikeListAdapter
     public static abstract class MyBaseViewHolder extends AbstractDraggableSwipeableItemViewHolder implements ExpandableItemViewHolder {
         public FrameLayout mContainer;
         public View mDragHandle;
-        public TextView mTextView;
+        public TextView mTitleTextView, mDateTextView, mMemberCountTextView, mNameTextView;
         private int mExpandStateFlags;
 
         public MyBaseViewHolder(View v) {
             super(v);
             mContainer = (FrameLayout) v.findViewById(R.id.container);
             mDragHandle = v.findViewById(R.id.drag_handle);
-            mTextView = (TextView) v.findViewById(android.R.id.text1);
         }
 
         @Override
@@ -112,13 +111,18 @@ class LikeListAdapter
         public MyGroupViewHolder(View v) {
             super(v);
             mIndicator = (ExpandableItemIndicator) v.findViewById(R.id.indicator);
+            mTitleTextView = (TextView) v.findViewById(R.id.like_room_title_text);
+            mDateTextView = (TextView) v.findViewById(R.id.like_room_date_text);
+            mMemberCountTextView = (TextView) v.findViewById(R.id.like_room_m_count_text);
         }
     }
 
     public static class MyChildViewHolder extends MyBaseViewHolder {
         public MyChildViewHolder(View v) {
             super(v);
+            mNameTextView = (TextView) v.findViewById(R.id.like_room_child_name_text);
         }
+
     }
 
     public LikeListAdapter(
@@ -209,7 +213,9 @@ class LikeListAdapter
         holder.itemView.setOnClickListener(mItemViewOnClickListener);
 
         // set text
-        holder.mTextView.setText(item.getText());
+        holder.mTitleTextView.setText(item.getTitle());
+        holder.mDateTextView.setText(item.getDate());
+        holder.mMemberCountTextView.setText(item.getMemberCount() + "명");
 
         // set background resource (target view ID: container)
         final int dragState = holder.getDragStateFlags();
@@ -267,7 +273,7 @@ class LikeListAdapter
         holder.mContainer.setOnClickListener(mSwipeableViewContainerOnClickListener);
 
         // set text
-        holder.mTextView.setText(item.getText());
+        holder.mNameTextView.setText(item.getName());
 
         final int dragState = holder.getDragStateFlags();
         final int swipeState = holder.getSwipeStateFlags();
