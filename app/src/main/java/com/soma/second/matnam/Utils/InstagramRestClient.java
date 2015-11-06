@@ -7,7 +7,9 @@ import com.loopj.android.http.*;
 public class InstagramRestClient {
 
     private static final String BASE_URL = "https://api.instagram.com/v1/";
-    private static final String ACCESS_TOKEN = "?access_token=2175148622.0d3d2b4.c70813bc5e184aaf8bf03c17e0f97ab5";
+    private static final String ACCESS_TOKEN
+
+            = "?access_token=2175148622.0d3d2b4.c70813bc5e184aaf8bf03c17e0f97ab5";
 
     private static final String TAG = "tags/";
     private static final String MEDIA_RECENT = "/media/recent";

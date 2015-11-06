@@ -35,12 +35,18 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 import static com.soma.second.matnam.Utils.Utils.loadBitmap;
+import com.soma.second.matnam.ui.InstagramApp.OAuthAuthenticationListener;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.widget.Toast;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
 	Indicator mIndicator;
 	MatnamApi matnamApi = null;
 	List<PlaceRecord> places;
+
+	private InstagramApp mApp;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,59 +57,201 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 		mIndicator = new Indicator(this);
 
+		mApp = new InstagramApp(this, ApplicationData.CLIENT_ID, ApplicationData.CLIENT_SECRET, ApplicationData.CALLBACK_URL);
+		mApp.setListener(listener);
+
 		Button loginButton = (Button) findViewById(R.id.loginButton);
 		loginButton.setOnClickListener(this);
 
-		String UserUrl = InstagramRestClient.userInfo(User.getId());
-		InstagramRestClient.get(UserUrl, null, new JsonHttpResponseHandler() {
+		if (mApp.hasAccessToken()) {
+			loginButton.setVisibility(View.INVISIBLE);
+			User.setId(mApp.getId());
+			new initLoadingAsyncTask().execute(mApp.getUserName());
+		} else {
+			loginButton.setVisibility(View.VISIBLE);
+		}
 
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-				try {
-					JSONObject data = response.getJSONObject("data");
-					String id = data.getString("id");
-					String fullName = data.getString("full_name");
-					String userName = data.getString("username");
-					String profileImgUrl = data.getString("profile_picture");
+	}
 
-					User.setFullName(fullName);
-					User.setUserName(userName);
+	public void blurBehindBackAcitivity() {
+		BlurBehind.getInstance()
+				.withAlpha(150)
+				.withFilterColor(Color.parseColor("#696969"))
+				.setBackground(this);
+	}
 
-					new setUserProfileImgAsyncTask().execute(profileImgUrl);
-				} catch (JSONException e) {
-					e.printStackTrace();
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.loginButton:
+				new initLoadingAsyncTask().execute("testID");
+
+				if (mApp.hasAccessToken()) {
+					final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+
+					builder.setMessage("Disconnect from Instagram?")
+							.setCancelable(false)
+							.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									// TODO Auto-generated method stub
+									mApp.resetAccessToken();
+								}
+							})
+							.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									// TODO Auto-generated method stub
+									dialog.cancel();
+								}
+							});
+
+					final AlertDialog alert = builder.create();
+					alert.show();
+				} else {
+					mApp.authorize();
 				}
+				break;
+		}
+	}
 
+	OAuthAuthenticationListener listener = new OAuthAuthenticationListener() {
+
+		@Override
+		public void onSuccess() {
+			// TODO Auto-generated method stub
+			//Go To NextActivity
+			User.setId(mApp.getId());
+			new initLoadingAsyncTask().execute(mApp.getId());
+		}
+
+		@Override
+		public void onFail(String error) {
+			// TODO Auto-generated method stub
+			Toast.makeText(LoginActivity.this, error, Toast.LENGTH_SHORT).show();
+		}
+
+	};
+
+	class initLoadingAsyncTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			if (matnamApi == null) {
+				matnamApi = CloudEndpointBuildHelper.getEndpoints();
 			}
 
-		});
+			UserRecord newUser = new UserRecord();
 
-		String FollowerUrl = InstagramRestClient.userFollows(User.getId());
-		InstagramRestClient.get(FollowerUrl, null, new JsonHttpResponseHandler() {
+			newUser.setAge(1);
+			newUser.setGender(true);
+			newUser.setId(params[0]);
+			newUser.setName("testUser");
 
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+			try {
+				matnamApi.addUser(newUser).execute();
+				places = matnamApi.getPlaces().execute().getItems();
+			} catch (IOException e) {
+				Log.e("API", "Error" + e.getMessage());
+				e.printStackTrace();
+			}
 
-				try {
-					JSONArray dataArr = response.getJSONArray("data");
-					for (int i = 0; i < dataArr.length(); i++) {
-						JSONObject data = (JSONObject) dataArr.get(i);
+			int index = 0;
+			for (Iterator<PlaceRecord> iter = places.iterator(); iter.hasNext(); ) {
+				PlaceRecord place = iter.next();
+
+				long foodId = place.getId();
+				String foodName = place.getName();
+				String imgUrl = place.getImgUrl();
+
+				if (index < 10) {
+					DataProvider.foodId_left[index] = foodId;
+					DataProvider.foodName_left[index] = foodName;
+					DataProvider.foodImgUrl_left[index] = imgUrl;
+				} else if (index < 20 && index >= 10) {
+					DataProvider.foodId_right[index - 10] = foodId;
+					DataProvider.foodName_right[index - 10] = foodName;
+					DataProvider.foodImgUrl_right[index - 10] = imgUrl;
+				}
+
+				index++;
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if (mIndicator.isShowing())
+				mIndicator.hide();
+
+			String UserUrl = InstagramRestClient.userInfo(User.getId());
+			InstagramRestClient.get(UserUrl, null, new JsonHttpResponseHandler() {
+
+				@Override
+				public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+					try {
+						JSONObject data = response.getJSONObject("data");
 						String id = data.getString("id");
 						String fullName = data.getString("full_name");
 						String userName = data.getString("username");
 						String profileImgUrl = data.getString("profile_picture");
 
-						new saveInstaFollowerAsyncTask(id, fullName, userName).execute(profileImgUrl);
+						User.setFullName(fullName);
+						User.setUserName(userName);
+
+						new setUserProfileImgAsyncTask().execute(profileImgUrl);
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-				} catch (JSONException e) {
-					e.printStackTrace();
+
 				}
 
-			}
+			});
 
-		});
+			String FollowerUrl = InstagramRestClient.userFollows(User.getId());
+			InstagramRestClient.get(FollowerUrl, null, new JsonHttpResponseHandler() {
+
+				@Override
+				public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+					try {
+						JSONArray dataArr = response.getJSONArray("data");
+						for (int i = 0; i < dataArr.length(); i++) {
+							JSONObject data = (JSONObject) dataArr.get(i);
+							String id = data.getString("id");
+							String fullName = data.getString("full_name");
+							String userName = data.getString("username");
+							String profileImgUrl = data.getString("profile_picture");
+
+							new saveInstaFollowerAsyncTask(id, fullName, userName).execute(profileImgUrl);
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+
+				}
+
+			});
+
+			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+			startActivity(intent);
+			finish();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			if (!mIndicator.isShowing())
+				mIndicator.show();
+		}
 	}
+
+
 
 	class setUserProfileImgAsyncTask extends AsyncTask<String, Void, Bitmap> {
 
@@ -138,87 +286,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		protected void onPostExecute(Bitmap result) {
 			super.onPostExecute(result);
 			DataProvider.instagramFollwerList.add(new InstagramFollwer(id, fullName, userName, result));
-		}
-	}
 
-	public void blurBehindBackAcitivity() {
-		BlurBehind.getInstance()
-				.withAlpha(150)
-				.withFilterColor(Color.parseColor("#696969"))
-				.setBackground(this);
-	}
-
-	@Override
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.loginButton :
-				new initLoadingAsyncTask().execute("testID");
-				break;
-		}
-	}
-
-	class initLoadingAsyncTask extends AsyncTask<String, Void, String>{
-
-		@Override
-		protected String doInBackground(String... params) {
-			if(matnamApi==null){
-				matnamApi = CloudEndpointBuildHelper.getEndpoints();
-			}
-
-			UserRecord newUser = new UserRecord();
-
-			newUser.setAge(1);
-			newUser.setGender(true);
-			newUser.setId(params[0]);
-			newUser.setName("testUser");
-
-			try {
-				matnamApi.addUser(newUser).execute();
-				places = matnamApi.getPlaces().execute().getItems();
-			} catch (IOException e) {
-				Log.e("API", "Error"+e.getMessage());
-				e.printStackTrace();
-			}
-
-			int index = 0;
-			for(Iterator<PlaceRecord> iter = places.iterator();iter.hasNext();){
-				PlaceRecord place = iter.next();
-
-				long foodId = place.getId();
-				String foodName = place.getName();
-				String imgUrl = place.getImgUrl();
-
-				if (index < 10) {
-					DataProvider.foodId_left[index] = foodId;
-					DataProvider.foodName_left[index] = foodName;
-					DataProvider.foodImgUrl_left[index] = imgUrl;
-				} else if (index < 20 && index >= 10) {
-					DataProvider.foodId_right[index-10] = foodId;
-					DataProvider.foodName_right[index-10] = foodName;
-					DataProvider.foodImgUrl_right[index-10] = imgUrl;
-				}
-
-				index++;
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-			if (mIndicator.isShowing())
-				mIndicator.hide();
-
-			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-			startActivity(intent);
-			finish();
-		}
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if ( !mIndicator.isShowing())
-				mIndicator.show();
+//
 		}
 	}
 

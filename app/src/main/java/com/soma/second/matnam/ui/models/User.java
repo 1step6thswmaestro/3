@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
  */
 public class User {
 
-    private static String ID = "2175148622";
+    private static String ID;
     private static String FULL_NAME;
     private static String USER_NAME;
     private static Bitmap PROFILE_IMG;
