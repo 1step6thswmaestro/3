@@ -12,7 +12,6 @@ import android.widget.Button;
 
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.PlaceRecord;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.UserRecord;
-import com.example.kimyoungjoon.myapplication.backend.models.LikeRoomRecord;
 import com.faradaj.blurbehind.BlurBehind;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.soma.second.matnam.R;
