@@ -22,16 +22,24 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.soma.second.matnam.R;
+import com.soma.second.matnam.Utils.InstagramRestClient;
 import com.soma.second.matnam.ui.InstagramSession;
 import com.soma.second.matnam.ui.adapters.ProfileDialogGridAdapter;
 import com.soma.second.matnam.ui.advrecyclerview.data.LikeRoomDataProvider;
 import java.net.URL;
+import com.soma.second.matnam.ui.models.Photo;
 import android.util.Log;
+import static com.soma.second.matnam.Utils.Utils.loadBitmap;
 
 /**
  * Created by youngjoosuh on 2015. 11. 7..
@@ -51,6 +59,9 @@ public class ProfileDialog extends Dialog {
     private ImageView childUserProfilePicture;
     private TextView childUserName;
     private GridView childUserPhotos;
+    private ProfileDialogGridAdapter photoAdapter;
+    ArrayList<Photo> photoArray = new ArrayList<Photo>();
+    //private ArrayList<String> photoUrlList;
 
     private InstagramSession mSession;
 
@@ -58,6 +69,10 @@ public class ProfileDialog extends Dialog {
     private int childPosition;
 
     private String imgUrl = "";
+
+    LikeRoomDataProvider likeRoomDataProvider;
+    String childName;
+    long childId;
 
     private static final String TAG = "Profile-Dialog";
     private static final String API_URL = "https://api.instagram.com/v1";
@@ -79,6 +94,11 @@ public class ProfileDialog extends Dialog {
         mContent = new LinearLayout(getContext());
         mContent.setOrientation(LinearLayout.VERTICAL);
         mSession = new InstagramSession(getContext());
+        photoAdapter = new ProfileDialogGridAdapter(this, photoArray);
+        //photoUrlList = new ArrayList<String>();
+        likeRoomDataProvider = new LikeRoomDataProvider();
+        childName = likeRoomDataProvider.getChildItem(groupPosition, childPosition).getName();
+        childId = likeRoomDataProvider.getChildItem(groupPosition, childPosition).getChildId();
         setUpTitle();
         setUpProfileView();
 
@@ -109,10 +129,6 @@ public class ProfileDialog extends Dialog {
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         linearLayout.setLayoutParams(params);
 
-        LikeRoomDataProvider likeRoomDataProvider = new LikeRoomDataProvider();
-        String childName = likeRoomDataProvider.getChildItem(groupPosition, childPosition).getName();
-        long childId = likeRoomDataProvider.getChildItem(groupPosition, childPosition).getChildId();
-
         childUserName = new TextView(getContext());
         childUserName.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         childUserName.setText(childName);
@@ -121,8 +137,7 @@ public class ProfileDialog extends Dialog {
         childUserProfilePicture = new ImageView(getContext());
         childUserProfilePicture.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         String profilePictureUrl = "";
-        String user_id = ""; //temp variable
-        CustomThread thread = new CustomThread(getContext(), user_id);
+        CustomThread thread = new CustomThread(getContext(), childName);
         thread.start();
         try {
             thread.join();
@@ -136,6 +151,8 @@ public class ProfileDialog extends Dialog {
         childUserPhotos = new GridView(getContext());
         childUserPhotos.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         childUserPhotos.setNumColumns(GridView.AUTO_FIT);
+
+        new loadJSONDataAsyncTask().execute(API_URL + "/users/" + childName + "/media/recent?access_token=" + mSession.getAccessToken());
         linearLayout.addView(childUserPhotos);
 
         mContent.addView(linearLayout);
@@ -193,12 +210,11 @@ public class ProfileDialog extends Dialog {
         }
     }
 
-
     class loadBitmapAsyncTask extends AsyncTask<String, Void, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            HttpURLConnection connection = null;
+            /*HttpURLConnection connection = null;
             try {
                 URL url = new URL(params[0]);
                 connection = (HttpURLConnection) url.openConnection();
@@ -212,7 +228,8 @@ public class ProfileDialog extends Dialog {
                 return null;
             } finally{
                 if(connection!=null)connection.disconnect();
-            }
+            }*/
+            return loadBitmap(params[0]);
         }
 
         @Override
@@ -222,5 +239,76 @@ public class ProfileDialog extends Dialog {
         }
     }
 
+    class loadJSONDataAsyncTask extends AsyncTask<String, Void, ArrayList<String>> {
+
+        @Override
+        protected ArrayList<String> doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            HttpURLConnection connection = null;
+            String imgUrl = null;
+            JSONObject imgJsonObj = null;
+            ArrayList<String> photoList = new ArrayList<String>();
+            try {
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                String response = streamToString(input);
+                JSONObject jsonObj = (JSONObject) new JSONTokener(response).nextValue();
+                JSONArray jsonData = jsonObj.getJSONArray("data");
+
+                int length = jsonData.length();
+                Log.v("length", ""+length);
+                if(length > 0) {
+                    for(int i=0; i<length; i++) {
+                        imgJsonObj = jsonData.getJSONObject(i).getJSONObject("images").getJSONObject("low_resolution");
+                        imgUrl = imgJsonObj.getString("url");
+                        //new loadUserPhotosAsyncTask().execute(imgUrl);
+                        photoList.add(imgUrl);
+                    }
+                }
+                return photoList;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            } finally{
+                if(connection!=null) connection.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> result) {
+            // TODO Auto-generated method stub
+            super.onPostExecute(result);
+            //mAdapter = new GridAdapter(getApplicationContext(), result);
+
+            for(int i=0; i<result.size(); i++) {
+                Log.v(i+"th URL", result.get(i));
+                new loadUserPhotosAsyncTask().execute(result.get(i));
+            }
+        }
+    }
+
+    class loadUserPhotosAsyncTask extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            return loadBitmap(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            Log.v("result", "" + result);
+            photoArray.add(new Photo(result));
+            childUserPhotos.setAdapter(photoAdapter);
+            //photoAdapter.notifyDataSetChanged();
+            /*photoAdapter.add(new Food(result));
+            if(photoAdapter.getCount() > 5) {
+                photoAdapter.notifyDataSetChanged();
+            }*/
+        }
+    }
 
 }
