@@ -6,8 +6,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -26,6 +29,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.w3c.dom.Text;
+import android.content.Intent;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -57,7 +63,11 @@ public class ProfileDialog extends Dialog {
     private LinearLayout mContent;
     private TextView mTitle;
     private ImageView childUserProfilePicture;
+    private TextView childUserId;
     private TextView childUserName;
+    private TextView childUserFullName;
+    private String profileLinkUrl;
+    private TextView childUserProfileLink;
     private GridView childUserPhotos;
     private ProfileDialogGridAdapter photoAdapter;
     ArrayList<Photo> photoArray = new ArrayList<Photo>();
@@ -118,7 +128,7 @@ public class ProfileDialog extends Dialog {
         mTitle.setText("Instagram Profile");
         mTitle.setTextColor(Color.WHITE);
         mTitle.setTypeface(Typeface.DEFAULT_BOLD);
-        mTitle.setBackgroundColor(Color.BLACK);
+        mTitle.setBackgroundColor(getContext().getResources().getColor(R.color.deep_orange_400));
         mTitle.setPadding(MARGIN + PADDING, MARGIN, MARGIN, MARGIN);
         mContent.addView(mTitle);
     }
@@ -128,11 +138,12 @@ public class ProfileDialog extends Dialog {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         linearLayout.setLayoutParams(params);
+        linearLayout.setPadding(20, 20, 20, 20);
 
-        childUserName = new TextView(getContext());
-        childUserName.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-        childUserName.setText(childName);
-        linearLayout.addView(childUserName);
+        LinearLayout innerLayout = new LinearLayout(getContext());
+        innerLayout.setOrientation(LinearLayout.HORIZONTAL);
+        LayoutParams innerParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        innerLayout.setLayoutParams(innerParams);
 
         childUserProfilePicture = new ImageView(getContext());
         childUserProfilePicture.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -146,11 +157,58 @@ public class ProfileDialog extends Dialog {
         }
         profilePictureUrl = thread.getImgUrl();
         new loadBitmapAsyncTask().execute(profilePictureUrl);
-        linearLayout.addView(childUserProfilePicture);
+        innerLayout.addView(childUserProfilePicture);
+
+
+        LinearLayout textViewLayout = new LinearLayout(getContext());
+        textViewLayout.setOrientation(LinearLayout.VERTICAL);
+        textViewLayout.setLayoutParams(params);
+        textViewLayout.setPadding(30, 0, 0, 0);
+        textViewLayout.setGravity(Gravity.CENTER_VERTICAL);
+
+        childUserId = new TextView(getContext());
+        childUserId.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        //childUserId.setBackgroundColor(Color.GREEN);
+        childUserId.setText(childName);
+
+        childUserName = new TextView(getContext());
+        childUserName.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        //childUserName.setBackgroundColor(Color.BLUE);
+        childUserName.setText(thread.getUserName());
+        childUserName.setPadding(0, 0, 0, 10);
+
+        childUserFullName = new TextView(getContext());
+        childUserFullName.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        //childUserFullName.setBackgroundColor(Color.GRAY);
+        childUserFullName.setText(thread.getUserFullName());
+
+        childUserProfileLink = new TextView(getContext());
+        childUserProfileLink.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        childUserProfileLink.setPadding(10, 10, 10, 10);
+        //childUserProfileLink.setBackgroundColor(Color.RED);
+        profileLinkUrl = "http://instagram.com/" + thread.getUserName();
+        childUserProfileLink.setText("Go To Instagram Profile");
+        childUserProfileLink.setBackgroundResource(R.drawable.profile_dialog_link_background_selector);
+        childUserProfileLink.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(profileLinkUrl));
+                getContext().startActivity(intent);
+            }
+        });
+
+       // textViewLayout.addView(childUserId);
+        textViewLayout.addView(childUserName);
+        //textViewLayout.addView(childUserFullName);
+        textViewLayout.addView(childUserProfileLink);
+        innerLayout.addView(textViewLayout);
+
+        //linearLayout.addView(childUserProfilePicture);
+        linearLayout.addView(innerLayout);
 
         childUserPhotos = new GridView(getContext());
         childUserPhotos.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        childUserPhotos.setNumColumns(GridView.AUTO_FIT);
+        childUserPhotos.setPadding(0, 30, 0, 0);
+        childUserPhotos.setNumColumns(3);
 
         new loadJSONDataAsyncTask().execute(API_URL + "/users/" + childName + "/media/recent?access_token=" + mSession.getAccessToken());
         linearLayout.addView(childUserPhotos);
@@ -180,6 +238,8 @@ public class ProfileDialog extends Dialog {
 
     public class CustomThread extends Thread {
         String imgUrl = "";
+        String userName = "";
+        String userFullName = "";
         String user_id;
         Context context;
 
@@ -199,6 +259,8 @@ public class ProfileDialog extends Dialog {
                 System.out.println(response);
                 JSONObject jsonObj = (JSONObject) new JSONTokener(response).nextValue();
                 imgUrl = jsonObj.getJSONObject("data").getString("profile_picture");
+                userName = jsonObj.getJSONObject("data").getString("username");
+                userFullName = jsonObj.getJSONObject("data").getString("full_name");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -207,6 +269,16 @@ public class ProfileDialog extends Dialog {
         public String getImgUrl() {
             if(imgUrl.equals("") || imgUrl.equals(null)) return null;
             else return imgUrl;
+        }
+
+        public String getUserName() {
+            if(userName.equals("") || userName.equals(null)) return null;
+            else return userName;
+        }
+
+        public String getUserFullName() {
+            if(userFullName.equals("") || userFullName.equals(null)) return null;
+            else return userFullName;
         }
     }
 
@@ -310,5 +382,4 @@ public class ProfileDialog extends Dialog {
             }*/
         }
     }
-
 }
