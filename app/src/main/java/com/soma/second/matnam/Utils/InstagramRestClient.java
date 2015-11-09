@@ -1,5 +1,7 @@
 package com.soma.second.matnam.Utils;
 
+import android.media.MediaActionSound;
+
 import com.loopj.android.http.*;
 /**
  * Created by Dongjun on 15. 11. 5..
@@ -30,6 +32,10 @@ public class InstagramRestClient {
 
     public static String userFollows(String user_id) {
         return USER + user_id + FOLLOWS + ACCESS_TOKEN;
+    }
+
+    public static String userPhotos(String user_id) {
+        return USER + user_id + MEDIA_RECENT + "/" + ACCESS_TOKEN;
     }
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {

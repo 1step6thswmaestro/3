@@ -135,7 +135,7 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
                 .beginTransaction()
                 .add(dialog, FRAGMENT_TAG_ITEM_PINNED_DIALOG)
                 .commit();*/
-        ProfileDialog profileDialog = new ProfileDialog(LikeListActivity.this);
+        ProfileDialog profileDialog = new ProfileDialog(LikeListActivity.this, groupPosition, childPosition);
         profileDialog.show();
     }
 

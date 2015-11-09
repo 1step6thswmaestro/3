@@ -18,7 +18,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.soma.second.matnam.R;
 
 public class InstagramDialog extends Dialog {
 	static final float[] DIMENSIONS_LANDSCAPE = { 460, 260 };
@@ -77,7 +77,7 @@ public class InstagramDialog extends Dialog {
 		mTitle.setText("Instagram");
 		mTitle.setTextColor(Color.WHITE);
 		mTitle.setTypeface(Typeface.DEFAULT_BOLD);
-		mTitle.setBackgroundColor(Color.BLACK);
+		mTitle.setBackgroundColor(getContext().getResources().getColor(R.color.deep_orange_400));
 		mTitle.setPadding(MARGIN + PADDING, MARGIN, MARGIN, MARGIN);
 		mContent.addView(mTitle);
 	}

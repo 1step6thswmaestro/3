@@ -9,20 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.soma.second.matnam.R;
+import android.graphics.Bitmap;
+import com.soma.second.matnam.ui.models.Photo;
 /**
  * Created by youngjoosuh on 2015. 11. 7..
  */
 public class ProfileDialogGridAdapter extends BaseAdapter {
 
-    private ArrayList<String> imageList;
+    private ArrayList<Photo> imageList;
     private Dialog dialog;
 
-    public ProfileDialogGridAdapter(Dialog dialog, ArrayList<String> photoList) {
+    public ProfileDialogGridAdapter(Dialog dialog, ArrayList<Photo> photoList) {
         super();
         Log.v("constructor", "abc");
         Log.v("constructor", ""+photoList.size());
-        this.imageList = photoList;
         this.dialog = dialog;
+        this.imageList = photoList;
     }
 
     @Override
@@ -63,7 +65,9 @@ public class ProfileDialogGridAdapter extends BaseAdapter {
             view = (ViewHolder) convertView.getTag();
         }
 
-        view.imageView.setImageResource(R.drawable.ic_launcher);
+        //view.imageView.setImageResource(R.drawable.ic_launcher);
+        Photo item = imageList.get(position);
+        view.imageView.setImageBitmap(item.getBitmap());
 
         return convertView;
     }
