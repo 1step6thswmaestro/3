@@ -67,10 +67,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		loginButton.setOnClickListener(this);
 
 		if (mApp.hasAccessToken()) {
+			Log.v("LoginActivity", "hastoken");
 			loginButton.setVisibility(View.INVISIBLE);
 			User.setId(mApp.getId());
 			new initLoadingAsyncTask().execute(mApp.getUserName());
 		} else {
+			Log.v("LoginActivity", "notoken");
 			loginButton.setVisibility(View.VISIBLE);
 		}
 
@@ -88,7 +90,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.loginButton:
-				new initLoadingAsyncTask().execute("testID");
+				//new initLoadingAsyncTask().execute("testID");
 
 				if (mApp.hasAccessToken()) {
 					final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
