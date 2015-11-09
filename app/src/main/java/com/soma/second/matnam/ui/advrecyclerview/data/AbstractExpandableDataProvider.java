@@ -30,7 +30,7 @@ public abstract class AbstractExpandableDataProvider {
     }
 
     public static abstract class ChildData extends BaseData {
-        public abstract String getName();
+        public abstract String getInstaId();
         public abstract long getChildId();
     }
 

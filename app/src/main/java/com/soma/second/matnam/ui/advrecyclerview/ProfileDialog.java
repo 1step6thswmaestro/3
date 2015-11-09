@@ -107,7 +107,7 @@ public class ProfileDialog extends Dialog {
         photoAdapter = new ProfileDialogGridAdapter(this, photoArray);
         //photoUrlList = new ArrayList<String>();
         likeRoomDataProvider = new LikeRoomDataProvider();
-        childName = likeRoomDataProvider.getChildItem(groupPosition, childPosition).getName();
+        childName = likeRoomDataProvider.getChildItem(groupPosition, childPosition).getInstaId();
         childId = likeRoomDataProvider.getChildItem(groupPosition, childPosition).getChildId();
         setUpTitle();
         setUpProfileView();

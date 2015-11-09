@@ -17,6 +17,7 @@
 package com.soma.second.matnam.ui.advrecyclerview;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
@@ -24,33 +25,62 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.kimyoungjoon.myapplication.backend.matnamApi.MatnamApi;
+import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.LikeRoomRecord;
+import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.PlaceRecord;
+import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.UserRecord;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.soma.second.matnam.R;
+import com.soma.second.matnam.Utils.CloudEndpointBuildHelper;
+import com.soma.second.matnam.Utils.InstagramRestClient;
+import com.soma.second.matnam.listdubbies.provider.DataProvider;
 import com.soma.second.matnam.ui.MakeRoomWithFriendActivity;
 import com.soma.second.matnam.ui.RequestWithFriendActivity;
 import com.soma.second.matnam.ui.advrecyclerview.data.AbstractExpandableDataProvider;
 import com.soma.second.matnam.ui.advrecyclerview.fragment.LikeRoomDataProviderFragment;
 import com.soma.second.matnam.ui.advrecyclerview.fragment.ExpandableItemPinnedMessageDialogFragment;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
+import com.soma.second.matnam.ui.models.User;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.Iterator;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import cz.msebera.android.httpclient.Header;
 
 public class LikeListActivity extends AppCompatActivity implements ExpandableItemPinnedMessageDialogFragment.EventListener, DatePickerDialog.OnDateSetListener, View.OnClickListener {
     private static final String FRAGMENT_TAG_DATA_PROVIDER = "data provider";
     private static final String FRAGMENT_LIST_VIEW = "list view";
     private static final String FRAGMENT_TAG_ITEM_PINNED_DIALOG = "item pinned dialog";
 
+    MatnamApi matnamApi = null;
+
+    private long makeRoomPlaceId;
+    private String makeRoomTitle;
+    private String makeRoomDate;
+    public static String makeRoomMembersId;
+    private int makeRoomMemberCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_like);
+
+        makeRoomPlaceId = getIntent().getExtras().getLong("placeId");
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -204,8 +234,11 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        String date = year + ". " + monthOfYear + ". " + dayOfMonth;
+
         TextView datePickTextview = (TextView) findViewById(R.id.pick_date_textview);
-        datePickTextview.setText(year + ". " + monthOfYear + ". " + dayOfMonth );
+        datePickTextview.setText(date);
+        makeRoomDate = date;
     }
 
     @Override
@@ -244,12 +277,60 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
                 break;
 
             case R.id.dialog_ok_textview :
-                new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("방을 만들었습니다!")
-                        .setContentText("합석 신청이 오기까지 기다려주세요.")
-                        .show();
+
+                MaterialEditText titleEditText = (MaterialEditText) findViewById(R.id.like_add_title_et);
+                makeRoomTitle = titleEditText.getText().toString();
+                makeRoomMemberCount = makeRoomMembersId.split(",").length;
+
+                if(makeRoomPlaceId != 0 && makeRoomTitle != null && makeRoomDate != null && makeRoomMembersId != null) {
+                    Log.e("TEST", makeRoomPlaceId + " " + makeRoomTitle + " " + makeRoomDate + " " + makeRoomMembersId);
+                    new addRoomAsyncTask().execute();
+                } else {
+                    Toast.makeText(LikeListActivity.this, "모든 항목을 채워주세요.", Toast.LENGTH_LONG).show();
+                }
                 break;
         }
 
+    }
+
+    class addRoomAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            if (matnamApi == null) {
+                matnamApi = CloudEndpointBuildHelper.getEndpoints();
+            }
+
+            LikeRoomRecord newRoom = new LikeRoomRecord();
+
+            newRoom.setPlaceId(makeRoomPlaceId);
+            newRoom.setTitle(makeRoomTitle);
+            newRoom.setDate(makeRoomDate);
+            newRoom.setMembersId(makeRoomMembersId);
+            newRoom.setMemberCount(makeRoomMemberCount);
+
+            try {
+                matnamApi.addLikeRoom(newRoom).execute();
+            } catch (IOException e) {
+                Log.e("API", "Error" + e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            new SweetAlertDialog(LikeListActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("방을 만들었습니다!")
+                    .setContentText("합석 신청이 오기까지 기다려주세요.")
+                    .show();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
     }
 }

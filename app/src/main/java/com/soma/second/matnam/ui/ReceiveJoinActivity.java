@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class RequestJoinActivity extends AppCompatActivity implements View.OnClickListener {
+public class ReceiveJoinActivity extends AppCompatActivity implements View.OnClickListener {
 
     GridView gridView;
     ArrayList<Friend> gridArray = new ArrayList<Friend>();

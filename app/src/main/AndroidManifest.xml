@@ -55,7 +55,7 @@
         <activity android:name=".ui.RequestWithFriendActivity" >
         </activity>
         <activity
-            android:name=".ui.RequestJoinActivity"
+            android:name=".ui.ReceiveJoinActivity"
             android:label="@string/title_activity_request_join"
             android:theme="@style/AppTheme" >
         </activity>

@@ -61,8 +61,7 @@ public class LikeRoomDataProvider extends AbstractExpandableDataProvider {
             final long roomId = likeRoomRecord.getId();
             final long placeId = likeRoomRecord.getPlaceId();
             final String title = likeRoomRecord.getTitle();
-            String[] dateArr = likeRoomRecord.getDate().split(" ");
-            final String date = dateArr[5] + "." + dateArr[1] + "." + dateArr[2];
+            final String date = likeRoomRecord.getDate();
             String membersId = likeRoomRecord.getMembersId();
             final int memberCount = likeRoomRecord.getMemberCount();
             String[] memberIdArr = membersId.split(",");
@@ -72,9 +71,9 @@ public class LikeRoomDataProvider extends AbstractExpandableDataProvider {
 
             for (int j = 0; j < memberIdArr.length; j++) {
                 final long childId = likeRoomGroup.generateNewChildId();
-                final String childText = memberIdArr[j];
+                final String childInstaId = memberIdArr[j].trim();
 
-                children.add(new LikeRoom.ChildData(childId, childText));
+                children.add(new LikeRoom.ChildData(childId, childInstaId));
             }
 
             mData.add(new Pair<GroupData, List<ChildData>>(likeRoomGroup, children));

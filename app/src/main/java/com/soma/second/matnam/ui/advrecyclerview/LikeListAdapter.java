@@ -54,6 +54,7 @@ import com.soma.second.matnam.ui.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -291,12 +292,10 @@ class LikeListAdapter
         // (if the item is *pinned*, click event comes to the mContainer)
         holder.mContainer.setOnClickListener(mSwipeableViewContainerOnClickListener);
 
-        // set text
-        holder.mNameTextView.setText(item.getName());
+        final TextView nameTextView = holder.mNameTextView;
+        final ImageView profileImgView = holder.mUserImgView;
 
-        final ImageView imageView = holder.mUserImgView;
-
-        String UserUrl = InstagramRestClient.userInfo(item.getName());
+        String UserUrl = InstagramRestClient.userInfo(item.getInstaId());
         InstagramRestClient.get(UserUrl, null, new JsonHttpResponseHandler() {
 
             @Override
@@ -304,12 +303,12 @@ class LikeListAdapter
 
                 try {
                     JSONObject data = response.getJSONObject("data");
-//                    String userName = data.getString("user_name");
-//                    String fullName = data.getString("full_name");
+                    String userName = data.getString("username");
+                    String fullName = data.getString("full_name");
                     String profileImgUrl = data.getString("profile_picture");
 
-//                    holder.mNameTextView.setText(userName + "(" + fullName + ")"
-                    new setUserProfileImgAsyncTask(imageView).execute(profileImgUrl);
+                    nameTextView.setText(userName + "(" + fullName + ")");
+                    new setUserProfileImgAsyncTask(profileImgView).execute(profileImgUrl);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -53,6 +53,8 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
     public static final String FOOD_NAME = "name";
     public static final String FOOD_IMG_URL = "url";
 
+    private long placeId;
+
     @InjectView(R.id.image)
     ImageView mImageView;
 
@@ -73,11 +75,11 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
         foodDetailGridAdapter = new FoodDetailGridAdapter(this, R.layout.item_food, foodArray);
         gridView.setAdapter(foodDetailGridAdapter);
 
-        long id = getIntent().getExtras().getLong(FOOD_ID);
+        placeId = getIntent().getExtras().getLong(FOOD_ID);
         String name = getIntent().getExtras().getString(FOOD_NAME);
         String imageUrl = getIntent().getExtras().getString(FOOD_IMG_URL);
 
-        new loadPlaceAsyncTask().execute(id);
+        new loadPlaceAsyncTask().execute(placeId);
 
         Picasso.with(this).load(imageUrl).into((ImageView) findViewById(R.id.image), new Callback() {
             @Override
@@ -134,6 +136,7 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.like_fab :
                 Intent intent = new Intent(FoodDetailActivity.this, LikeListActivity.class);
+                intent.putExtra("placeId", placeId);
                 startActivity(intent);
                 break;
         }

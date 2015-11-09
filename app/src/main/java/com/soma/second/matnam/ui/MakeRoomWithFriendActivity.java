@@ -10,6 +10,7 @@ import com.orhanobut.dialogplus.OnItemClickListener;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.listdubbies.provider.DataProvider;
 import com.soma.second.matnam.ui.adapters.InstagramFollowerListAdapter;
+import com.soma.second.matnam.ui.advrecyclerview.LikeListActivity;
 import com.soma.second.matnam.ui.models.InstagramFollwer;
 import com.soma.second.matnam.ui.models.User;
 
@@ -22,12 +23,16 @@ public class MakeRoomWithFriendActivity extends AppCompatActivity implements Vie
     GridView gridView;
     InstagramFollowerListAdapter registerFollowerGridAdapter;
     InstagramFollowerListAdapter instagramFollowerListAdapter;
+    ArrayList<String> memberList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_room_with_friend);
         setOnClickViews();
+
+        memberList = new ArrayList<>();
+        memberList.add(User.getId());
 
         ArrayList<InstagramFollwer> instagramFollwerList = new ArrayList<>();
         instagramFollwerList.add(new InstagramFollwer(User.getId(), User.getFullName(), User.getUserName(), User.getProfileImg()));
@@ -63,6 +68,10 @@ public class MakeRoomWithFriendActivity extends AppCompatActivity implements Vie
                 dialog.show();
                 break;
             case R.id.friend_compose_text :
+                String members_id = memberList.toString();
+                members_id = members_id.substring(1, members_id.length() - 1);
+                LikeListActivity.makeRoomMembersId = members_id.trim();
+
                 finish();
                 break;
         }
@@ -76,6 +85,7 @@ public class MakeRoomWithFriendActivity extends AppCompatActivity implements Vie
                 if(regCount < 6) {
                     registerFollowerGridAdapter.add(_user);
                     registerFollowerGridAdapter.notifyDataSetChanged();
+                    memberList.add(_user.getId());
                 } else {
                     new SweetAlertDialog(MakeRoomWithFriendActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("가능 인원 수를 초과하였습니다.")

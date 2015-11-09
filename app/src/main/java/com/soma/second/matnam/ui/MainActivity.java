@@ -297,6 +297,7 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
 
             case ContentFragment.ROOM:
                 intent = new Intent(MainActivity.this, LikeListActivity.class);
+                intent.putExtra("placeId", (long) 0);
                 startActivity(intent);
                 return screenShotable;
 

@@ -14,9 +14,7 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnItemClickListener;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.listdubbies.provider.DataProvider;
-import com.soma.second.matnam.ui.adapters.FriendGridAdapter;
 import com.soma.second.matnam.ui.adapters.InstagramFollowerListAdapter;
-import com.soma.second.matnam.ui.models.Friend;
 import com.soma.second.matnam.ui.models.InstagramFollwer;
 import com.soma.second.matnam.ui.models.User;
 
@@ -75,7 +73,7 @@ public class RequestWithFriendActivity extends AppCompatActivity implements View
                         .show();
 
                 NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, RequestJoinActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, ReceiveJoinActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
                 Notification notif = new Notification.Builder(this)
                         .setContentTitle("같이 식사를 하자는 요청이 들어왔습니다.")

@@ -69,17 +69,17 @@ public class LikeRoom {
     public static final class ChildData extends AbstractExpandableDataProvider.ChildData {
 
         private long mId;
-        private final String mText;
+        private final String mInstaId;
         private boolean mPinned;
 
-        public ChildData(long id, String text) {
-            mId = id;
-            mText = text;
+        public ChildData(long _id, String _instaId) {
+            mId = _id;
+            mInstaId = _instaId;
         }
 
         @Override
-        public String getName() {
-            return mText;
+        public String getInstaId() {
+            return mInstaId;
         }
 
         @Override
