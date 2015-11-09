@@ -16,12 +16,14 @@
 
 package com.soma.second.matnam.ui.advrecyclerview;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -147,8 +149,10 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
      * @param groupPosition The position of the group item within data set
      */
     public void onGroupItemPinned(int groupPosition) {
+        AbstractExpandableDataProvider.GroupData data = getDataProvider().getGroupItem(groupPosition);
 
         Intent intent = new Intent(LikeListActivity.this, RequestWithFriendActivity.class);
+        intent.putExtra("memberCount", data.getMemberCount());
         startActivity(intent);
     }
 
@@ -280,10 +284,9 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
 
                 MaterialEditText titleEditText = (MaterialEditText) findViewById(R.id.like_add_title_et);
                 makeRoomTitle = titleEditText.getText().toString();
-                makeRoomMemberCount = makeRoomMembersId.split(",").length;
 
                 if(makeRoomPlaceId != 0 && makeRoomTitle != null && makeRoomDate != null && makeRoomMembersId != null) {
-                    Log.e("TEST", makeRoomPlaceId + " " + makeRoomTitle + " " + makeRoomDate + " " + makeRoomMembersId);
+                    makeRoomMemberCount = makeRoomMembersId.split(",").length;
                     new addRoomAsyncTask().execute();
                 } else {
                     Toast.makeText(LikeListActivity.this, "모든 항목을 채워주세요.", Toast.LENGTH_LONG).show();
