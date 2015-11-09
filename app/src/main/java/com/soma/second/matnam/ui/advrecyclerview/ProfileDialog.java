@@ -92,6 +92,16 @@ public class ProfileDialog extends Dialog {
         // TODO Auto-generated constructor stub
         this.groupPosition = groupPosition;
         this.childPosition = childPosition;
+
+        likeRoomDataProvider = new LikeRoomDataProvider();
+        childName = likeRoomDataProvider.getChildItem(groupPosition, childPosition).getInstaId();
+        childId = likeRoomDataProvider.getChildItem(groupPosition, childPosition).getChildId();
+    }
+
+    public ProfileDialog(Context context, String instaId) {
+        super(context);
+        // TODO Auto-generated constructor stub
+        this.childName = instaId;
     }
 
     @Override
@@ -106,9 +116,7 @@ public class ProfileDialog extends Dialog {
         mSession = new InstagramSession(getContext());
         photoAdapter = new ProfileDialogGridAdapter(this, photoArray);
         //photoUrlList = new ArrayList<String>();
-        likeRoomDataProvider = new LikeRoomDataProvider();
-        childName = likeRoomDataProvider.getChildItem(groupPosition, childPosition).getInstaId();
-        childId = likeRoomDataProvider.getChildItem(groupPosition, childPosition).getChildId();
+
         setUpTitle();
         setUpProfileView();
 

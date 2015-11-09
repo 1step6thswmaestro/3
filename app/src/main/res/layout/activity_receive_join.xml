@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="친구초대"
+            android:text="합석제의"
             android:textSize="15sp"
             android:textColor="@android:color/white"/>
 
@@ -32,7 +32,7 @@
         android:textSize="15dp"/>
 
     <GridView
-        android:id="@+id/friend_grid"
+        android:id="@+id/receive_grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -44,7 +44,7 @@
     </GridView>
 
     <TextView
-        android:id="@+id/request_accept_text_text"
+        android:id="@+id/receive_accept_text_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -57,7 +57,7 @@
         android:textColor="@color/deep_orange_800"/>
 
     <TextView
-        android:id="@+id/request_decline_text"
+        android:id="@+id/receive_decline_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

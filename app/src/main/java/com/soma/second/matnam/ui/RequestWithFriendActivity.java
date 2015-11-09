@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
@@ -37,7 +36,7 @@ public class RequestWithFriendActivity extends AppCompatActivity implements View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invite_friend);
+        setContentView(R.layout.activity_request_with_friend);
         setOnClickViews();
 
         memberCount = getIntent().getExtras().getInt("memberCount");
