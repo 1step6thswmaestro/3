@@ -363,10 +363,17 @@ public class ProfileDialog extends Dialog {
             super.onPostExecute(result);
             //mAdapter = new GridAdapter(getApplicationContext(), result);
 
-            for(int i=0; i<result.size(); i++) {
+            if(result!=null) {
+                for(int i=0; i<result.size(); i++) {
+                    Log.v(i+"th URL", result.get(i));
+                    new loadUserPhotosAsyncTask().execute(result.get(i));
+                }
+            }
+
+            /*for(int i=0; i<result.size(); i++) {
                 Log.v(i+"th URL", result.get(i));
                 new loadUserPhotosAsyncTask().execute(result.get(i));
-            }
+            }*/
         }
     }
 

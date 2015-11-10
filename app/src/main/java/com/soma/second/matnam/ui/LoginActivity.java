@@ -67,12 +67,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		loginButton.setOnClickListener(this);
 
 		if (mApp.hasAccessToken()) {
-			Log.v("LoginActivity", "hastoken");
 			loginButton.setVisibility(View.INVISIBLE);
 			User.setId(mApp.getId());
 			new initLoadingAsyncTask().execute(mApp.getUserName());
 		} else {
-			Log.v("LoginActivity", "notoken");
 			loginButton.setVisibility(View.VISIBLE);
 		}
 
