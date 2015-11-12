@@ -10,7 +10,7 @@ public class User {
     private static String ID;
     private static String FULL_NAME;
     private static String USER_NAME;
-    private static Bitmap PROFILE_IMG;
+    private static String PROFILE_IMG_URL;
 
     public static String getId() { return ID; }
     public static void setId(String _id) { ID = _id; }
@@ -31,11 +31,11 @@ public class User {
         USER_NAME = userName;
     }
 
-    public static Bitmap getProfileImg() {
-        return PROFILE_IMG;
+    public static String getProfileImgUrl() {
+        return PROFILE_IMG_URL;
     }
 
-    public static void setProfileImg(Bitmap profileImg) {
-        PROFILE_IMG = profileImg;
+    public static void setProfileImgUrl(String profileImgUrl) {
+        PROFILE_IMG_URL = profileImgUrl;
     }
 }

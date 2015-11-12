@@ -21,7 +21,7 @@ public class DataProvider {
 
     public static ArrayList<InstagramFollwer> instagramFollwerList = new ArrayList<>();
 
-    public static List<LikeRoomRecord> likeRoomRecordList;
+    public static List<LikeRoomRecord> likeRoomRecordList = new ArrayList<>();
     public static List<Bitmap> likeRoomFoodImgList = new ArrayList<>();
-    public static List<List> likeRoomProfileImgList = new ArrayList<>();
+    public static List<List> likeRoomMemberList = new ArrayList<>();
 }

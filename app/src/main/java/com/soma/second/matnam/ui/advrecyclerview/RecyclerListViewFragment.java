@@ -92,7 +92,7 @@ public class RecyclerListViewFragment extends Fragment
 
         //adapter
         final LikeListAdapter myItemAdapter =
-                new LikeListAdapter(mRecyclerViewExpandableItemManager, getDataProvider());
+                new LikeListAdapter(mRecyclerViewExpandableItemManager, getDataProvider(), getContext());
 
         myItemAdapter.setEventListener(new LikeListAdapter.EventListener() {
             @Override

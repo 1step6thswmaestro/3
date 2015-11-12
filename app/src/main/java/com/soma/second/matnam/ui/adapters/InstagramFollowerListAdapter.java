@@ -6,6 +6,7 @@ package com.soma.second.matnam.ui.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.Utils.RecycleUtils;
 import com.soma.second.matnam.ui.models.InstagramFollwer;
@@ -59,22 +63,9 @@ public class InstagramFollowerListAdapter extends ArrayAdapter<InstagramFollwer>
             holder = (RecordHolder) row.getTag();
         }
 
-        InstagramFollwer item = data.get(position);
+        final InstagramFollwer item = data.get(position);
         holder.txtTitle.setText(item.getUserName() + " (" + item.getFullName() + ")");
-
-        try {
-            holder.imageItem.setImageBitmap(item.getProfileImg());
-        } catch (OutOfMemoryError e) {
-            if (mRecycleList.size() <= parent.getChildCount()) {
-                Log.e(this + "", "size:" + mRecycleList.size());
-                throw e;
-            }
-            Log.w(this + "", e.toString());
-            recycleHalf();
-            System.gc();
-            return getView(position, convertView, parent);
-        }
-        mRecycleList.add(new WeakReference<View>(holder.imageItem));
+        Glide.with(context).load(item.getProfile_img_url()).into(holder.imageItem);
 
         return row;
 

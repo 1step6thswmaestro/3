@@ -114,7 +114,13 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
                     for (int i = 0; i < dataArr.length(); i++) {
                         JSONObject data = (JSONObject) dataArr.get(i);
                         String thumbnail_url = data.getJSONObject("images").getJSONObject("thumbnail").getString("url");
-                        new loadBitmapAsyncTask().execute(thumbnail_url);
+
+                        foodDetailGridAdapter.add(new Food(thumbnail_url));
+                        if(foodDetailGridAdapter.getCount() > 5) {
+                            foodDetailGridAdapter.notifyDataSetChanged();
+                            if (mIndicator.isShowing())
+                                mIndicator.hide();
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -222,24 +228,24 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
     }
 
 
-    class loadBitmapAsyncTask extends AsyncTask<String, Void, Bitmap> {
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            return getBitmapWithGlide(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-            foodDetailGridAdapter.add(new Food(result));
-            if(foodDetailGridAdapter.getCount() > 5) {
-                foodDetailGridAdapter.notifyDataSetChanged();
-                if (mIndicator.isShowing())
-                    mIndicator.hide();
-            }
-        }
-    }
+//    class loadBitmapAsyncTask extends AsyncTask<String, Void, Bitmap> {
+//
+//        @Override
+//        protected Bitmap doInBackground(String... params) {
+//            return getBitmapWithGlide(params[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Bitmap result) {
+//            super.onPostExecute(result);
+//            foodDetailGridAdapter.add(new Food(result));
+//            if(foodDetailGridAdapter.getCount() > 5) {
+//                foodDetailGridAdapter.notifyDataSetChanged();
+//                if (mIndicator.isShowing())
+//                    mIndicator.hide();
+//            }
+//        }
+//    }
 }
 
 

@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.ui.models.Food;
 import com.soma.second.matnam.ui.models.Friend;
@@ -53,7 +54,8 @@ public class FoodDetailGridAdapter extends ArrayAdapter<Food> {
         }
 
         Food item = data.get(position);
-        holder.imageItem.setImageBitmap(item.getBitmap());
+        Glide.with(context).load(item.getImgUrl()).into(holder.imageItem);
+
         return row;
 
     }
