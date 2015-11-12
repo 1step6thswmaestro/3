@@ -51,6 +51,7 @@ import com.soma.second.matnam.ui.advrecyclerview.fragment.LikeRoomDataProviderFr
 import com.soma.second.matnam.ui.advrecyclerview.fragment.ExpandableItemPinnedMessageDialogFragment;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.soma.second.matnam.ui.models.User;
+import com.soma.second.matnam.ui.models.MyRoom;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONArray;
@@ -286,6 +287,7 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
                 makeRoomTitle = titleEditText.getText().toString();
 
                 if(makeRoomPlaceId != 0 && makeRoomTitle != null && makeRoomDate != null && makeRoomMembersId != null) {
+                    Log.v("makeRoomMembersId", makeRoomMembersId);
                     makeRoomMemberCount = makeRoomMembersId.split(",").length;
                     new addRoomAsyncTask().execute();
                 } else {
@@ -314,6 +316,8 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
 
             try {
                 matnamApi.addLikeRoom(newRoom).execute();
+                //newRoom.getId();
+                MyRoom myRoom = new MyRoom(newRoom.getId(), makeRoomMembersId);
             } catch (IOException e) {
                 Log.e("API", "Error" + e.getMessage());
                 e.printStackTrace();

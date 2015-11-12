@@ -52,6 +52,7 @@ public class ReceiveJoinActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
 
         switch (view.getId()) {
+
             case R.id.receive_accept_text_text :
                 new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                         .setTitleText("성사되었습니다.")

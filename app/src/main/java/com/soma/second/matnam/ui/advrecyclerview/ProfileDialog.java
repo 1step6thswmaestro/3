@@ -363,10 +363,17 @@ public class ProfileDialog extends Dialog {
             super.onPostExecute(result);
             //mAdapter = new GridAdapter(getApplicationContext(), result);
 
-            for(int i=0; i<result.size(); i++) {
+            if(result!=null) {
+                for(int i=0; i<result.size(); i++) {
+                    Log.v(i+"th URL", result.get(i));
+                    new loadUserPhotosAsyncTask().execute(result.get(i));
+                }
+            }
+
+            /*for(int i=0; i<result.size(); i++) {
                 Log.v(i+"th URL", result.get(i));
                 new loadUserPhotosAsyncTask().execute(result.get(i));
-            }
+            }*/
         }
     }
 
@@ -381,13 +388,12 @@ public class ProfileDialog extends Dialog {
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             Log.v("result", "" + result);
-            photoArray.add(new Photo(result));
-            childUserPhotos.setAdapter(photoAdapter);
-            //photoAdapter.notifyDataSetChanged();
-            /*photoAdapter.add(new Food(result));
-            if(photoAdapter.getCount() > 5) {
-                photoAdapter.notifyDataSetChanged();
-            }*/
+            if(result!=null) {
+                photoArray.add(new Photo(result));
+                childUserPhotos.setAdapter(photoAdapter);
+            }
+            //photoArray.add(new Photo(result));
+            //childUserPhotos.setAdapter(photoAdapter);
         }
     }
 }

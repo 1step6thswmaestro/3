@@ -88,7 +88,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.loginButton:
-				new initLoadingAsyncTask().execute("testID");
+				//new initLoadingAsyncTask().execute("testID");
 
 				if (mApp.hasAccessToken()) {
 					final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
