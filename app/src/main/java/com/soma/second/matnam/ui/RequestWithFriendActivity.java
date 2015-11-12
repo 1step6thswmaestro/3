@@ -88,7 +88,7 @@ public class RequestWithFriendActivity extends AppCompatActivity implements View
                         if(dataProvider.getmMyRoom().get(i).getId().equals(groupId)) {
                             Log.v("groupId", groupId);
                             Log.v("elseId", ""+dataProvider.getmMyRoom().get(i).getId());
-                            dataProvider.getmData().get(i).second.add(User.getId()); //User.getId()가 맞는지...?
+                            dataProvider.getmData().get(i).second.add(User.getId()); //User.getId()는 임시값...
                         }
 
                     }

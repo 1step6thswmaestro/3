@@ -26,6 +26,7 @@ import com.soma.second.matnam.ui.models.LikeRoom;
 import com.soma.second.matnam.ui.models.MyRoom;
 import com.soma.second.matnam.ui.models.User;
 import com.soma.second.matnam.ui.widget.Indicator;
+import com.soma.second.matnam.ui.widget.JoinRequestListDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -115,7 +116,8 @@ public class MyInfoActivity extends AppCompatActivity {
         myRoomList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             public void onItemClick(AdapterView<?> parent, View view, int position, long l_position) {
                 //Toast.makeText(getApplicationContext(), mMyRoom.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-
+                JoinRequestListDialog joinRequestListDialog = new JoinRequestListDialog(MyInfoActivity.this, position);
+                joinRequestListDialog.show();
             }
 
         });

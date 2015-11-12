@@ -23,7 +23,8 @@ import java.util.List;
 public class MyRoomDataProvider{
     private List<Pair<LikeRoomRecord, ArrayList<String> >> mData; //ROOM_INFO and joinRequestUserId in a Pair
     private final ArrayList<LikeRoomRecord> mMyRoom = new ArrayList<LikeRoomRecord>();
-    private final ArrayList<String> mJoinRequestUserId = new ArrayList<String>();
+    private final ArrayList<String> mJoinRequestUsersId = new ArrayList<String>();
+    //mJoinRequestUsersId의 한개의 아이템에는 한개의 조인요청에 포함된 모든 유저들의 아이디를 String 하나로 묶은 형태로 저장하는 것을 가정함(members_Id 처럼)
 
     public MyRoomDataProvider() {
 
@@ -48,7 +49,7 @@ public class MyRoomDataProvider{
                 mMyRoom.add(likeRoomRecord);
             }
 
-            mData.add(new Pair<LikeRoomRecord, ArrayList<String>>(likeRoomRecord, mJoinRequestUserId));
+            mData.add(new Pair<LikeRoomRecord, ArrayList<String>>(likeRoomRecord, mJoinRequestUsersId));
 
         }
     }
