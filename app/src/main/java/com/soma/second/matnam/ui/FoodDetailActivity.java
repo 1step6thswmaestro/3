@@ -163,8 +163,6 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
         @Override
         protected void onPostExecute(PlaceRecord result) {
             super.onPostExecute(result);
-            if (mIndicator.isShowing())
-                mIndicator.hide();
 
             TextView nameTextView = (TextView) findViewById(R.id.food_name);
             nameTextView.setText(result.getName());
@@ -207,8 +205,11 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             foodDetailGridAdapter.add(new Food(result));
-            if(foodDetailGridAdapter.getCount() > 5)
+            if(foodDetailGridAdapter.getCount() > 5) {
                 foodDetailGridAdapter.notifyDataSetChanged();
+                if (mIndicator.isShowing())
+                    mIndicator.hide();
+            }
         }
     }
 }

@@ -75,7 +75,6 @@ public class MainActivity extends ActionBarActivity implements CustomizeFragment
             manageFragment(ListBuddiesFragment.newInstance(isOpenActivitiesActivated), FragmentTags.LIST_BUDDIES, false);
         }
 
-        setSpeed(5);
         ButterKnife.inject(this);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
