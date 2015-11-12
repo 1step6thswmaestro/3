@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/MatNam.iml" filepath="$PROJECT_DIR$/MatNam.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/backend.iml" filepath="$PROJECT_DIR$/backend/backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_blur-behind/library_blur-behind.iml" filepath="$PROJECT_DIR$/library_blur-behind/library_blur-behind.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_loading/library_loading.iml" filepath="$PROJECT_DIR$/library_loading/library_loading.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_side-menu/library_side-menu.iml" filepath="$PROJECT_DIR$/library_side-menu/library_side-menu.iml" />
-      <module fileurl="file://$PROJECT_DIR$/matnam_android.iml" filepath="$PROJECT_DIR$/matnam_android.iml" />
     </modules>
   </component>
 </project>

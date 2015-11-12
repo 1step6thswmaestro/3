@@ -6,6 +6,7 @@ package com.soma.second.matnam.ui.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.soma.second.matnam.R;
+import com.soma.second.matnam.Utils.RecycleUtils;
 import com.soma.second.matnam.ui.models.InstagramFollwer;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,6 +28,9 @@ import java.util.ArrayList;
  *
  */
 public class InstagramFollowerListAdapter extends ArrayAdapter<InstagramFollwer> {
+
+    private List<WeakReference<View>> mRecycleList = new ArrayList<WeakReference<View>>();
+
     Context context;
     int layoutResourceId;
     ArrayList<InstagramFollwer> data = new ArrayList<InstagramFollwer>();
@@ -54,7 +61,21 @@ public class InstagramFollowerListAdapter extends ArrayAdapter<InstagramFollwer>
 
         InstagramFollwer item = data.get(position);
         holder.txtTitle.setText(item.getUserName() + " (" + item.getFullName() + ")");
-        holder.imageItem.setImageBitmap(item.getProfileImg());
+
+        try {
+            holder.imageItem.setImageBitmap(item.getProfileImg());
+        } catch (OutOfMemoryError e) {
+            if (mRecycleList.size() <= parent.getChildCount()) {
+                Log.e(this + "", "size:" + mRecycleList.size());
+                throw e;
+            }
+            Log.w(this + "", e.toString());
+            recycleHalf();
+            System.gc();
+            return getView(position, convertView, parent);
+        }
+        mRecycleList.add(new WeakReference<View>(holder.imageItem));
+
         return row;
 
     }
@@ -63,5 +84,19 @@ public class InstagramFollowerListAdapter extends ArrayAdapter<InstagramFollwer>
         TextView txtTitle;
         ImageView imageItem;
 
+    }
+
+    public void recycle() {
+        RecycleUtils.recursiveRecycle(mRecycleList);
+    }
+
+    //만들었던 뷰 목록 중 반을 지우는 메소드
+    public void recycleHalf() {
+        int halfSize = mRecycleList.size() / 2;
+        List<WeakReference<View>> recycleHalfList = mRecycleList.subList(0,
+                halfSize);
+        RecycleUtils.recursiveRecycle(recycleHalfList);
+        for (int i = 0; i < halfSize; i++)
+            mRecycleList.remove(0);
     }
 }
