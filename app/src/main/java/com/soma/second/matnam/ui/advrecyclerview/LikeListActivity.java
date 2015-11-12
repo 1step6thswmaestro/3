@@ -154,6 +154,7 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
 
         Intent intent = new Intent(LikeListActivity.this, RequestWithFriendActivity.class);
         intent.putExtra("memberCount", data.getMemberCount());
+        intent.putExtra("groupId", ""+data.getGroupId());
         startActivity(intent);
     }
 
@@ -317,7 +318,7 @@ public class LikeListActivity extends AppCompatActivity implements ExpandableIte
             try {
                 matnamApi.addLikeRoom(newRoom).execute();
                 //newRoom.getId();
-                MyRoom myRoom = new MyRoom(newRoom.getId(), makeRoomMembersId);
+                MyRoom myRoom = new MyRoom(newRoom);
             } catch (IOException e) {
                 Log.e("API", "Error" + e.getMessage());
                 e.printStackTrace();

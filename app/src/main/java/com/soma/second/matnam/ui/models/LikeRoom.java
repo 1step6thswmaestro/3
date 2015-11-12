@@ -1,7 +1,7 @@
 package com.soma.second.matnam.ui.models;
 
 import com.soma.second.matnam.ui.advrecyclerview.data.AbstractExpandableDataProvider;
-
+import java.util.ArrayList;
 /**
  * Created by Dongjun on 15. 11. 7..
  */
@@ -17,6 +17,7 @@ public class LikeRoom {
         private int mMember_Count;
         private boolean mPinned;
         private long mNextChildId;
+        //private ArrayList<String> mJoinRequestId;
 
         public GroupData(long _id, long _room_id, long _place_id, String _title, String _date, String _members_id, int _member_count) {
             mId = _id;
@@ -27,6 +28,7 @@ public class LikeRoom {
             mMembers_Id = _members_id;
             mMember_Count = _member_count;
             mNextChildId = 0;
+            //mJoinRequestId = _joinRequestId;
         }
 
         @Override
@@ -64,6 +66,13 @@ public class LikeRoom {
             mNextChildId += 1;
             return id;
         }
+
+        /*public ArrayList<String> getmJoinRequestId() {
+            return mJoinRequestId;
+        }
+        public void setmJoinRequestId(String request_id) {
+            mJoinRequestId.add(request_id);
+        }*/
     }
 
     public static final class ChildData extends AbstractExpandableDataProvider.ChildData {

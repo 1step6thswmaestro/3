@@ -20,6 +20,7 @@ import com.soma.second.matnam.Utils.InstagramRestClient;
 import com.soma.second.matnam.listdubbies.provider.DataProvider;
 import com.soma.second.matnam.ui.adapters.MyRoomListAdapter;
 import com.soma.second.matnam.ui.advrecyclerview.data.AbstractExpandableDataProvider;
+import com.soma.second.matnam.ui.advrecyclerview.data.MyRoomDataProvider;
 import com.soma.second.matnam.ui.models.LikeRoom;
 import com.soma.second.matnam.ui.models.MyRoom;
 import com.soma.second.matnam.ui.models.User;
@@ -35,10 +36,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import android.widget.ListView;
+import android.view.View;
 
 import cz.msebera.android.httpclient.Header;
 
 import static com.soma.second.matnam.Utils.Utils.loadBitmap;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 public class MyInfoActivity extends AppCompatActivity {
 
@@ -84,15 +88,10 @@ public class MyInfoActivity extends AppCompatActivity {
             }
         }*/
 
-        for (int i = 0; i < likeRoomRecordList.size(); i++) {
+        /*for (int i = 0; i < likeRoomRecordList.size(); i++) {
 
             LikeRoomRecord likeRoomRecord = likeRoomRecordList.get(i);
             Log.v("List.get(i)",likeRoomRecord.toString());
-            //final long roomId = likeRoomRecord.getId();
-            //final long placeId = likeRoomRecord.getPlaceId();
-            //final String title = likeRoomRecord.getTitle();
-            //final String date = likeRoomRecord.getDate();
-            //final int memberCount = likeRoomRecord.getMemberCount();
             String membersId = likeRoomRecord.getMembersId();
             Log.v("membersId",membersId);
             String[] memberIdArr = membersId.split(",");
@@ -103,7 +102,21 @@ public class MyInfoActivity extends AppCompatActivity {
                 Log.v("User.getId()", User.getId());
                 mMyRoom.add(likeRoomRecord);
             }
-        }
+        }*/
+
+        MyRoomDataProvider myRoomDataProvider = new MyRoomDataProvider();
+        mMyRoom = myRoomDataProvider.getmMyRoom();
+
+        //mMyRoom = MyRoom.mMyRoom_List;
+        //if(mMyRoom==null)Log.v("mMyRoomList", "null");
         myRoomList.setAdapter(new MyRoomListAdapter(this, mMyRoom));
+
+        myRoomList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            public void onItemClick(AdapterView<?> parent, View view, int position, long l_position) {
+                //Toast.makeText(getApplicationContext(), mMyRoom.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
     }
 }

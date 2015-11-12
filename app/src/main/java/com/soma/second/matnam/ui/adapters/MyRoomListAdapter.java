@@ -62,7 +62,7 @@ public class MyRoomListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        String str = data.get(position).getMembersId();
+        String str = data.get(position).getTitle();
         holder.tv.setText(str);
 
         return convertView;

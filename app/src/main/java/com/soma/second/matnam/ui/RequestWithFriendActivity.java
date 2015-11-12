@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -18,7 +19,9 @@ import com.orhanobut.dialogplus.OnItemClickListener;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.listdubbies.provider.DataProvider;
 import com.soma.second.matnam.ui.adapters.InstagramFollowerListAdapter;
+import com.soma.second.matnam.ui.advrecyclerview.data.MyRoomDataProvider;
 import com.soma.second.matnam.ui.models.InstagramFollwer;
+import com.soma.second.matnam.ui.models.LikeRoom;
 import com.soma.second.matnam.ui.models.User;
 
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ public class RequestWithFriendActivity extends AppCompatActivity implements View
     InstagramFollowerListAdapter instagramFollowerListAdapter;
 
     private int memberCount;
+    private String groupId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class RequestWithFriendActivity extends AppCompatActivity implements View
         setOnClickViews();
 
         memberCount = getIntent().getExtras().getInt("memberCount");
+        groupId = getIntent().getExtras().getString("groupId");
 
         ArrayList<InstagramFollwer> instagramFollwerList = new ArrayList<>();
         instagramFollwerList.add(new InstagramFollwer(User.getId(), User.getFullName(), User.getUserName(), User.getProfileImg()));
@@ -78,6 +83,16 @@ public class RequestWithFriendActivity extends AppCompatActivity implements View
                 break;
             case R.id.friend_request_text :
                 if(registerFollowerGridAdapter.getCount() == memberCount) {
+                    MyRoomDataProvider dataProvider = new MyRoomDataProvider();
+                    for(int i=0; i<dataProvider.getmMyRoom().size(); i++) {
+                        if(dataProvider.getmMyRoom().get(i).getId().equals(groupId)) {
+                            Log.v("groupId", groupId);
+                            Log.v("elseId", ""+dataProvider.getmMyRoom().get(i).getId());
+                            dataProvider.getmData().get(i).second.add(User.getId()); //User.getId()가 맞는지...?
+                        }
+
+                    }
+
                     new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("신청되었습니다!")
                             .setContentText("답변이 오기까지 기다려주세요.")
