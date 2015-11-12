@@ -3,6 +3,7 @@ package com.soma.second.matnam.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.MatnamApi;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.PlaceRecord;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -33,6 +39,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -106,8 +113,8 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
                     JSONArray dataArr = response.getJSONArray("data");
                     for (int i = 0; i < dataArr.length(); i++) {
                         JSONObject data = (JSONObject) dataArr.get(i);
-                        String row_images_url = data.getJSONObject("images").getJSONObject("low_resolution").getString("url");
-                        new loadBitmapAsyncTask().execute(row_images_url);
+                        String thumbnail_url = data.getJSONObject("images").getJSONObject("thumbnail").getString("url");
+                        new loadBitmapAsyncTask().execute(thumbnail_url);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -163,8 +170,6 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
         @Override
         protected void onPostExecute(PlaceRecord result) {
             super.onPostExecute(result);
-            if (mIndicator.isShowing())
-                mIndicator.hide();
 
             TextView nameTextView = (TextView) findViewById(R.id.food_name);
             nameTextView.setText(result.getName());
@@ -196,19 +201,43 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    private Bitmap getBitmapWithGlide(String _url) {
+
+        Bitmap bitmap = null;
+        try {
+            bitmap = Glide.
+                    with(this).
+                    load(_url).
+                    asBitmap().
+                    into(100, 100). // Width and height
+                    get();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return bitmap;
+    }
+
+
     class loadBitmapAsyncTask extends AsyncTask<String, Void, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            return loadBitmap(params[0]);
+            return getBitmapWithGlide(params[0]);
         }
 
         @Override
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             foodDetailGridAdapter.add(new Food(result));
-            if(foodDetailGridAdapter.getCount() > 5)
+            if(foodDetailGridAdapter.getCount() > 5) {
                 foodDetailGridAdapter.notifyDataSetChanged();
+                if (mIndicator.isShowing())
+                    mIndicator.hide();
+            }
         }
     }
 }

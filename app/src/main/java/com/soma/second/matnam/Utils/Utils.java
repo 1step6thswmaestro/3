@@ -102,4 +102,21 @@ public class Utils {
             if(connection!=null)connection.disconnect();
         }
     }
+
+    private static Bitmap decodeFile( int minImageSize, InputStream is ){
+        Bitmap b = null;
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream( is, null, options );
+        int scale = 1;
+        if( options.outHeight > minImageSize || options.outWidth > minImageSize ) {
+            scale = (int)Math.pow(  2,  (int)Math.round( Math.log( minImageSize / (double)Math.max( options.outHeight, options.outWidth ) ) / Math.log( 0.5 ) ) );
+        }
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = scale;
+        b = BitmapFactory.decodeStream( is, null, o2 );
+
+        return b;
+    }
 }
