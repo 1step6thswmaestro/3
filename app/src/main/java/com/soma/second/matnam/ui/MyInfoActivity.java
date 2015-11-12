@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.MatnamApi;
 import com.example.kimyoungjoon.myapplication.backend.matnamApi.model.LikeRoomRecord;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -69,7 +70,7 @@ public class MyInfoActivity extends AppCompatActivity {
             fullNameTextView.setText(User.getFullName());
         }*/
         ImageView profileImgView = (ImageView) findViewById(R.id.myinfo_profile_img);
-        profileImgView.setImageBitmap(User.getProfileImg());
+        Glide.with(this).load(User.getProfileImgUrl()).into(profileImgView);
 
         if (matnamApi == null) {
             matnamApi = CloudEndpointBuildHelper.getEndpoints();

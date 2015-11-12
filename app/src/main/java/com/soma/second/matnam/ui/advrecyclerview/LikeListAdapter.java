@@ -16,6 +16,7 @@
 
 package com.soma.second.matnam.ui.advrecyclerview;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v4.view.ViewCompat;
@@ -27,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.soma.second.matnam.R;
 import com.soma.second.matnam.Utils.InstagramRestClient;
@@ -143,9 +145,12 @@ class LikeListAdapter
 
     }
 
+    public Context mContext;
+
     public LikeListAdapter(
             RecyclerViewExpandableItemManager expandableItemManager,
-            AbstractExpandableDataProvider dataProvider) {
+            AbstractExpandableDataProvider dataProvider, Context context) {
+
         mExpandableItemManager = expandableItemManager;
         mProvider = dataProvider;
         mItemViewOnClickListener = new View.OnClickListener() {
@@ -160,6 +165,7 @@ class LikeListAdapter
                 onSwipeableViewContainerClick(v);
             }
         };
+        mContext = context;
 
         // ExpandableItemAdapter, ExpandableDraggableItemAdapter and ExpandableSwipeableItemAdapter
         // require stable ID, and also have to implement the getGroupItemId()/getChildItemId() methods appropriately.
@@ -282,7 +288,7 @@ class LikeListAdapter
     }
 
     @Override
-    public void onBindChildViewHolder(MyChildViewHolder holder, int groupPosition, int childPosition, int viewType) {
+    public void onBindChildViewHolder(final MyChildViewHolder holder, int groupPosition, int childPosition, int viewType) {
         // child item
         final AbstractExpandableDataProvider.ChildData item = mProvider.getChildItem(groupPosition, childPosition);
 
@@ -308,7 +314,8 @@ class LikeListAdapter
                     String profileImgUrl = data.getString("profile_picture");
 
                     nameTextView.setText(userName + "(" + fullName + ")");
-                    new setUserProfileImgAsyncTask(profileImgView).execute(profileImgUrl);
+                    Glide.with(mContext).load(profileImgUrl).into(profileImgView);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -345,26 +352,6 @@ class LikeListAdapter
         // set swiping properties
         holder.setSwipeItemHorizontalSlideAmount(
                 item.isPinned() ? Swipeable.OUTSIDE_OF_THE_WINDOW_LEFT : 0);
-    }
-
-    class setUserProfileImgAsyncTask extends AsyncTask<String, Void, Bitmap> {
-
-        ImageView ImageView;
-
-        setUserProfileImgAsyncTask(ImageView imageView) {
-            this.ImageView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            return loadBitmap(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-            ImageView.setImageBitmap(result);
-        }
     }
 
     @Override

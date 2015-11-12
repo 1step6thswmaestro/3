@@ -47,7 +47,7 @@ public class RequestWithFriendActivity extends AppCompatActivity implements View
         groupId = getIntent().getExtras().getString("groupId");
 
         ArrayList<InstagramFollwer> instagramFollwerList = new ArrayList<>();
-        instagramFollwerList.add(new InstagramFollwer(User.getId(), User.getFullName(), User.getUserName(), User.getProfileImg()));
+        instagramFollwerList.add(new InstagramFollwer(User.getId(), User.getFullName(), User.getUserName(), User.getProfileImgUrl()));
 
         gridView = (GridView) findViewById(R.id.friend_grid);
         registerFollowerGridAdapter = new InstagramFollowerListAdapter(this, R.layout.item_insta_follower_grid, instagramFollwerList);

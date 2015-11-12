@@ -7,12 +7,17 @@ import android.graphics.Bitmap;
  */
 public class Food {
 
-    private Bitmap bitmap;
+    private String imgUrl;
 
-    public Food(Bitmap _bitmap) {
-        this.bitmap = _bitmap;
+    public Food(String _imgUrl) {
+        this.imgUrl = _imgUrl;
     }
 
-    public Bitmap getBitmap() { return this.bitmap; }
-    public void setBitmap(Bitmap _bitmap) { this.bitmap = _bitmap;  }
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 }

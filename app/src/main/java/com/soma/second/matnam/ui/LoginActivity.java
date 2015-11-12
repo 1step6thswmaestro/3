@@ -32,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -203,8 +204,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 						User.setFullName(fullName);
 						User.setUserName(userName);
+						User.setProfileImgUrl(profileImgUrl);
 
-						new setUserProfileImgAsyncTask().execute(profileImgUrl);
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -228,7 +229,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 							String userName = data.getString("username");
 							String profileImgUrl = data.getString("profile_picture");
 
-							new saveInstaFollowerAsyncTask(id, fullName, userName).execute(profileImgUrl);
+							DataProvider.instagramFollwerList.add(new InstagramFollwer(id, fullName, userName, profileImgUrl));
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -246,42 +247,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 			super.onPreExecute();
 			if (!mIndicator.isShowing())
 				mIndicator.show();
-		}
-	}
-
-	class setUserProfileImgAsyncTask extends AsyncTask<String, Void, Bitmap> {
-
-		@Override
-		protected Bitmap doInBackground(String... params) {
-			return loadBitmap(params[0]);
-		}
-
-		@Override
-		protected void onPostExecute(Bitmap result) {
-			super.onPostExecute(result);
-			User.setProfileImg(result);
-		}
-	}
-
-	class saveInstaFollowerAsyncTask extends AsyncTask<String, Void, Bitmap> {
-
-		String id, fullName, userName;
-
-		saveInstaFollowerAsyncTask(String _id, String _fullName, String _userName) {
-			this.id = _id;
-			this.fullName = _fullName;
-			this.userName = _userName;
-		}
-
-		@Override
-		protected Bitmap doInBackground(String... params) {
-			return loadBitmap(params[0]);
-		}
-
-		@Override
-		protected void onPostExecute(Bitmap result) {
-			super.onPostExecute(result);
-			DataProvider.instagramFollwerList.add(new InstagramFollwer(id, fullName, userName, result));
 		}
 	}
 
@@ -309,9 +274,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 			super.onPostExecute(resultList);
 			DataProvider.likeRoomRecordList = resultList;
 
-			for(LikeRoomRecord data : resultList) {
+			for(LikeRoomRecord data : resultList)
 				new loadFoodImgAsyncTask().execute(data.getPlaceId());
-			}
 
 			Handler mHandler = new Handler();
 			mHandler.postDelayed(new Runnable() {

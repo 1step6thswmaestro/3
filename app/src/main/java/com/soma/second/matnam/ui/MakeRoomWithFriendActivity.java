@@ -35,7 +35,7 @@ public class MakeRoomWithFriendActivity extends AppCompatActivity implements Vie
         memberList.add(User.getId());
 
         ArrayList<InstagramFollwer> instagramFollwerList = new ArrayList<>();
-        instagramFollwerList.add(new InstagramFollwer(User.getId(), User.getFullName(), User.getUserName(), User.getProfileImg()));
+        instagramFollwerList.add(new InstagramFollwer(User.getId(), User.getFullName(), User.getUserName(), User.getProfileImgUrl()));
 
         gridView = (GridView) findViewById(R.id.friend_grid);
         registerFollowerGridAdapter = new InstagramFollowerListAdapter(this, R.layout.item_insta_follower_grid, instagramFollwerList);
