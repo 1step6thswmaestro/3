@@ -84,7 +84,7 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
         if (isOpenActivities) {
             Intent intent = new Intent(getActivity(), FoodDetailActivity.class);
             intent.putExtra(FoodDetailActivity.FOOD_ID, getId(buddy, position));
-            intent.putExtra(FoodDetailActivity.FOOD_NAME, getName(buddy, position));
+            intent.putExtra(FoodDetailActivity.FOOD_KEYWORD, getKeyword(buddy, position));
             intent.putExtra(FoodDetailActivity.FOOD_IMG_URL, getImage(buddy, position));
             startActivity(intent);
         } else {
@@ -97,8 +97,8 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
         return buddy == 0 ? DataProvider.foodId_left[position] : DataProvider.foodId_right[position];
     }
 
-    private String getName(int buddy, int position) {
-        return buddy == 0 ? DataProvider.foodName_left[position] : DataProvider.foodName_right[position];
+    private String getKeyword(int buddy, int position) {
+        return buddy == 0 ? DataProvider.foodKeyword_left[position] : DataProvider.foodKeyword_right[position];
     }
 
     private String getImage(int buddy, int position) {

@@ -167,17 +167,17 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 				PlaceRecord place = iter.next();
 
 				long foodId = place.getId();
-				String foodName = place.getName();
-				String imgUrl = place.getImgUrl();
+				String foodKeyword = place.getKeyword();
+				String lowImgUrl = place.getLowResolution();
 
 				if (index < 10) {
 					DataProvider.foodId_left[index] = foodId;
-					DataProvider.foodName_left[index] = foodName;
-					DataProvider.foodImgUrl_left[index] = imgUrl;
+					DataProvider.foodKeyword_left[index] = foodKeyword;
+					DataProvider.foodImgUrl_left[index] = lowImgUrl;
 				} else if (index < 20 && index >= 10) {
 					DataProvider.foodId_right[index - 10] = foodId;
-					DataProvider.foodName_right[index - 10] = foodName;
-					DataProvider.foodImgUrl_right[index - 10] = imgUrl;
+					DataProvider.foodKeyword_right[index - 10] = foodKeyword;
+					DataProvider.foodImgUrl_right[index - 10] = lowImgUrl;
 				}
 				index++;
 			}
@@ -348,7 +348,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 				e.printStackTrace();
 			}
 
-			return loadBitmap(place.getImgUrl());
+			return loadBitmap(place.getThumbnail());
 		}
 
 		@Override

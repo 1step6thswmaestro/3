@@ -57,7 +57,7 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
     FoodDetailGridAdapter foodDetailGridAdapter;
 
     public static final String FOOD_ID = "id";
-    public static final String FOOD_NAME = "name";
+    public static final String FOOD_KEYWORD = "keyword";
     public static final String FOOD_IMG_URL = "url";
 
     private long placeId;
@@ -83,7 +83,7 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
         gridView.setAdapter(foodDetailGridAdapter);
 
         placeId = getIntent().getExtras().getLong(FOOD_ID);
-        String name = getIntent().getExtras().getString(FOOD_NAME);
+        String keyword = getIntent().getExtras().getString(FOOD_KEYWORD);
         String imageUrl = getIntent().getExtras().getString(FOOD_IMG_URL);
 
         new loadPlaceAsyncTask().execute(placeId);
@@ -96,7 +96,7 @@ public class FoodDetailActivity extends BaseActivity implements View.OnClickList
             public void onError() { }
         });
 
-        InstagramRestClient.get(InstagramRestClient.tagMediaRecent(name.trim()), null, new JsonHttpResponseHandler() {
+        InstagramRestClient.get(InstagramRestClient.tagMediaRecent(keyword), null, new JsonHttpResponseHandler() {
 
             @Override
             public void onStart() {

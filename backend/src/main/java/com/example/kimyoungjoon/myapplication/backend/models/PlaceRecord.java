@@ -17,11 +17,16 @@ public class PlaceRecord {
     private String opening;
     private String category;
     private String description;
+    private String keyword;
     private int grade;
     private int views;
-    private String img_url;
+    private String standard_resolution;
+    private String low_resolution;
+    private String thumbnail;
 
-    public PlaceRecord(Long id, String name, String location, String tel, String price, String opening, String category, String description, int grade, int views, String img_url) {
+    public PlaceRecord(Long id, String name, String location, String tel, String price,
+                       String opening, String category, String description, String keyword,
+                       int grade, int views, String standard_resolution, String low_resolution, String thumbnail) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -30,9 +35,12 @@ public class PlaceRecord {
         this.opening = opening;
         this.category = category;
         this.description = description;
+        this.keyword = keyword;
         this.grade = grade;
         this.views = views;
-        this.img_url = img_url;
+        this.standard_resolution = standard_resolution;
+        this.low_resolution = low_resolution;
+        this.thumbnail = thumbnail;
     }
 
     public PlaceRecord(){
@@ -119,7 +127,35 @@ public class PlaceRecord {
         this.views = views;
     }
 
-    public String getImg_url() {return img_url;}
+    public String getKeyword() {
+        return keyword;
+    }
 
-    public void setImg_url(String img_url) {this.img_url = img_url;}
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public String getStandard_resolution() {
+        return standard_resolution;
+    }
+
+    public void setStandard_resolution(String standard_resolution) {
+        this.standard_resolution = standard_resolution;
+    }
+
+    public String getLow_resolution() {
+        return low_resolution;
+    }
+
+    public void setLow_resolution(String low_resolution) {
+        this.low_resolution = low_resolution;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
 }
